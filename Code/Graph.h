@@ -6,51 +6,52 @@
 #include <string>
 using namespace std;
 
-class Edge;
-class Vertex;
-class Graph;
+template <class T> class Edge;
+template <class T> class Graph;
+template <class T> class Vertex;
 
-class Vertex{ //airport
-    private:
-        Airport airport;
-        vector<Edge> adj;
-        bool visited;
 
-        void addEdge(Vertex *destination, Airline airline);
+template <class T>
+class Vertex {
+    T info;
+    vector<Edge<T> > adj;
+    bool visited;
 
-    public:
-        Vertex(Airport airport);
+    void addEdge(Vertex<T> *dest, double w);
 
-        Airport getAirport();
-        bool isVisited();
-        bool setVisited();
-        vector<Edge> &getAdj();
-        void setAdj(vector<Edge> &adj);
-        friend class Graph;
-};
-
-class Edge{ //flight
-private:
-    Airline airline;
-    Vertex * destination;
 public:
-    Edge(Vertex *destination, Airline airline);
-    Vertex *getDest();
-    void setDest(Vertex *dest);
-    Airline getAirline();
-    void setAirline(Airline airline);
-    friend class Graph;
-    friend class Vertex;
+    Vertex(T in);
+    T getInfo() const;
+    bool isVisited() const;
+    void setVisited(bool v);
+    const vector<Edge<T>> &getAdj() const;
+    void setAdj(const vector<Edge<T>> &adj);
+    friend class Graph<T>;
 };
 
-class Graph { //Graph of flights and airports
-    private:
-        vector<Vertex *> vertexSet;
-    public:
-        Vertex findVertex(Airport airport);
-        bool addVertex(Airport airport);
-        bool addEdge(Vertex source, Vertex destination, Airline airline);
-        vector<Vertex *> getVertexSet();
+template <class T>
+class Edge {
+    Vertex<T> * dest;
+    double weight;
+public:
+    Edge(Vertex<T> *d, double w);
+    Vertex<T> *getDest() const;
+    void setDest(Vertex<T> *dest);
+    double getWeight() const;
+    void setWeight(double weight);
+    friend class Graph<T>;
+    friend class Vertex<T>;
+};
+
+template <class T>
+class Graph {
+    vector<Vertex<T> *> vertexSet;
+public:
+    Vertex<T> *findVertex(const T &in) const;
+    int getNumVertex() const;
+    bool addVertex(const T &in);
+    bool addEdge(const T &sourc, const T &dest, double w);
+    vector<Vertex<T> * > getVertexSet() const;
 };
 
 #endif //PROJAED2_FLIGHT_H
