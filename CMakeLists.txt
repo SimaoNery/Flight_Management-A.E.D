@@ -13,8 +13,8 @@ add_executable(Flight_Management
         Code/Graph.h
         Code/Menu.cpp
         Code/Menu.h
-        Code/TravelManager.cpp
-        Code/TravelManager.h
+        Code/AirTravelManager.cpp
+        Code/AirTravelManager.h
         Information/airlines.csv
         Information/airports.csv
         Information/flights.csv)

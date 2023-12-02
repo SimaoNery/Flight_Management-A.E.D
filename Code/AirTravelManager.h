@@ -9,7 +9,7 @@
 #include "Graph.h"
 using namespace std;
 
-class TravelManager {
+class AirTravelManager {
 public:
     void readAirlines();
     void readAirports();

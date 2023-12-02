@@ -79,8 +79,8 @@ build CMakeFiles/Flight_Management.dir/Code/Menu.cpp.o: CXX_COMPILER__Flight_Man
   OBJECT_DIR = CMakeFiles/Flight_Management.dir
   OBJECT_FILE_DIR = CMakeFiles/Flight_Management.dir/Code
 
-build CMakeFiles/Flight_Management.dir/Code/TravelManager.cpp.o: CXX_COMPILER__Flight_Management_unscanned_Debug /home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/TravelManager.cpp || cmake_object_order_depends_target_Flight_Management
-  DEP_FILE = CMakeFiles/Flight_Management.dir/Code/TravelManager.cpp.o.d
+build CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o: CXX_COMPILER__Flight_Management_unscanned_Debug /home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/AirTravelManager.cpp || cmake_object_order_depends_target_Flight_Management
+  DEP_FILE = CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o.d
   FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/Flight_Management.dir
   OBJECT_FILE_DIR = CMakeFiles/Flight_Management.dir/Code
@@ -93,7 +93,7 @@ build CMakeFiles/Flight_Management.dir/Code/TravelManager.cpp.o: CXX_COMPILER__F
 #############################################
 # Link the executable Flight_Management
 
-build Flight_Management: CXX_EXECUTABLE_LINKER__Flight_Management_Debug CMakeFiles/Flight_Management.dir/Code/main.cpp.o CMakeFiles/Flight_Management.dir/Code/Airline.cpp.o CMakeFiles/Flight_Management.dir/Code/Airport.cpp.o CMakeFiles/Flight_Management.dir/Code/Graph.cpp.o CMakeFiles/Flight_Management.dir/Code/Menu.cpp.o CMakeFiles/Flight_Management.dir/Code/TravelManager.cpp.o
+build Flight_Management: CXX_EXECUTABLE_LINKER__Flight_Management_Debug CMakeFiles/Flight_Management.dir/Code/main.cpp.o CMakeFiles/Flight_Management.dir/Code/Airline.cpp.o CMakeFiles/Flight_Management.dir/Code/Airport.cpp.o CMakeFiles/Flight_Management.dir/Code/Graph.cpp.o CMakeFiles/Flight_Management.dir/Code/Menu.cpp.o CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/Flight_Management.dir
   POST_BUILD = :

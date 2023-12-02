@@ -6,11 +6,11 @@
 #include <string>
 using namespace std;
 
-class Graph { //represents all flights
+class Graph { //represents all flights between airports
 
     struct Edge{ //connects to nodes(will represent flights)
         string destination;
-        string airline; //airline associated with the edge
+        string airline; //airline that operates in each flight
     };
 
     struct Node{ //will represent the airports

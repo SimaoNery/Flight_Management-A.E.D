@@ -25,6 +25,10 @@ void Graph::addEdge(std::string airportCode, std::string destination, std::strin
     size++;
 }
 
+string Graph::getAirline() {
+    return airline;
+}
+
 vector<Graph::Node> Graph::getNodes() {
     return nodes;
 }
