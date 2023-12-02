@@ -1,8 +1,8 @@
 #include <iostream>
-#include "TravelManager.h"
+#include "AirTravelManager.h"
 
 int main() {
-    TravelManager manager;
+    AirTravelManager manager;
     manager.readAirlines();
     manager.readAirports();
     manager.readFlights();

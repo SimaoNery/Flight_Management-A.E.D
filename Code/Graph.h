@@ -6,52 +6,33 @@
 #include <string>
 using namespace std;
 
-template <class T> class Edge;
-template <class T> class Graph;
-template <class T> class Vertex;
+class Graph { //represents all flights between airports
 
+    struct Edge{ //connects to nodes(will represent flights)
+        string destination;
+        string airline; //airline that operates in each flight
+    };
 
-template <class T>
-class Vertex {
-    T info;
-    vector<Edge<T> > adj;
-    bool visited;
+    struct Node{ //will represent the airports
+        string airportCode;
+        bool visited; //was this node already visited?
+        int distance; //distance of a node to a reference node(will be used in traversal)
+        vector<Edge> adj; //outgoing edges to adjacent nodes
+    };
 
-    void addEdge(Vertex<T> *dest, double w);
+private:
+    int size;
+    string airline; //airline associated with the graph
+    vector<Node> nodes; //airports
+
 
 public:
-    Vertex(T in);
-    T getInfo() const;
-    bool isVisited() const;
-    void setVisited(bool v);
-    const vector<Edge<T>> &getAdj() const;
-    void setAdj(const vector<Edge<T>> &adj);
-    friend class Graph<T>;
-};
+    Graph(string airline);
 
-template <class T>
-class Edge {
-    Vertex<T> * dest;
-    double weight;
-public:
-    Edge(Vertex<T> *d, double w);
-    Vertex<T> *getDest() const;
-    void setDest(Vertex<T> *dest);
-    double getWeight() const;
-    void setWeight(double weight);
-    friend class Graph<T>;
-    friend class Vertex<T>;
-};
+    void addEdge(string airportCode, string destination, string airline);
+    string getAirline();
+    vector<Node> getNodes();
 
-template <class T>
-class Graph {
-    vector<Vertex<T> *> vertexSet;
-public:
-    Vertex<T> *findVertex(const T &in) const;
-    int getNumVertex() const;
-    bool addVertex(const T &in);
-    bool addEdge(const T &sourc, const T &dest, double w);
-    vector<Vertex<T> * > getVertexSet() const;
 };
 
 #endif //PROJAED2_FLIGHT_H

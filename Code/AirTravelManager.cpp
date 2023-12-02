@@ -5,9 +5,9 @@
 #include <cmath>
 #include <algorithm>
 #include <set>
-#include "TravelManager.h"
+#include "AirTravelManager.h"
 
-void TravelManager::readAirlines(){
+void AirTravelManager::readAirlines(){
 
     ifstream inputFile("airlines.csv");
     string line;
@@ -26,7 +26,7 @@ void TravelManager::readAirlines(){
     }
 }
 
-void TravelManager::readAirports(){
+void AirTravelManager::readAirports(){
     ifstream inputFile("airports.csv");
     string line;
     getline (inputFile, line);
@@ -53,7 +53,7 @@ void TravelManager::readAirports(){
     }
 }
 
-void TravelManager::readFlights(){
+void AirTravelManager::readFlights(){
     ifstream inputFile3("flights.csv");
     string line;
     getline(inputFile3, line);
