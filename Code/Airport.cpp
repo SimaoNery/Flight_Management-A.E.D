@@ -1,34 +1,42 @@
 #include "Airport.h"
 
 Airport::Airport(string& code, string& name, string& city, string& country ,float latitude, float longitude){
-    this->code_ = code;
-    this->name_ = name;
-    this->city_ = city;
-    this->country_ = country;
-    this->latitude_ = latitude;
-    this->longitude_ = longitude;
+    this->code = code;
+    this->name = name;
+    this->city = city;
+    this->country = country;
+    this->latitude = latitude;
+    this->longitude = longitude;
 }
 
 string Airport::getCode(){
-    return code_;
+    return code;
 }
 
 string Airport::getName(){
-    return name_;
+    return name;
 }
 
 string Airport::getCity(){
-    return city_;
+    return city;
 }
 
 string Airport::getCountry() {
-    return country_;
+    return country;
 }
 
 float Airport::getLatitude(){
-    return latitude_;
+    return latitude;
 }
 
 float Airport::getLongitude(){
-    return longitude_;
+    return longitude;
+}
+
+bool Airport::operator<(const Airport& other) const {
+    return code < other.code;
+}
+
+bool Airport::operator==(const Airport& other) const {
+    return code == other.code;
 }
