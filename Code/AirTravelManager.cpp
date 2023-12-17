@@ -1,73 +1,102 @@
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <queue>
 #include <cmath>
 #include <algorithm>
 #include <set>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include "AirTravelManager.h"
 
-void AirTravelManager::readAirlines(){
+void AirTravelManager::readAirports(){
+    ifstream file("../Information/airports.csv");
+    if(!file.is_open()){ //Check if we can open the file
+        cout << "Impossible to open the file!" << endl;
+    }
 
-    ifstream inputFile("airlines.csv");
-    string line;
-    getline(inputFile, line);
+    string line; getline(file, line); //Ignore the first line
 
-    while (getline(inputFile, line)) {
-        string code, name, callsign, country;
-        istringstream ss(line);
-        getline(ss, code, ',');
-        getline(ss, name, ',');
-        getline(ss, callsign, ',');
-        getline(ss, country);
+    while(getline(file, line)) {
 
-        Airline* airline = new Airline(code, name, callsign, country);
-        airlines.insert({code,airline});
+        istringstream iss(line);
+
+        string code, name, city, country, lati, longi;
+        getline(iss, code, ',');
+        getline(iss, name, ',');
+        getline(iss, city, ',');
+        getline(iss, country, ',');
+        getline(iss, lati, ',');
+        getline(iss, longi, '\r');
+
+        double latitude = stod(lati); //convert string to double
+        double longitude = stod(longi); //convert string to double
+
+        Airport airport(code, name, city, country, latitude, longitude);
+
+        airports.insert(airport); //adds an airport to the set with all airports
+        airportCity.insert(make_pair(code, make_pair(city, country))); //adds a pair (code, (city, country)) to the map
+        airportCoordinates.insert(make_pair(code, make_pair(latitude, longitude))); //adds a pair(code, (latitude, longitude)) to the other map
+
+        bigGraph.addVertex(airport); //adds the airport as a vertex of the graph
     }
 }
 
-void AirTravelManager::readAirports(){
-    ifstream inputFile("airports.csv");
-    string line;
-    getline (inputFile, line);
+void AirTravelManager::readAirlines(){
+    ifstream file("../Information/airlines.csv");
+    if(!file.is_open()){ //Check if we can open the file
+        cout << "Impossible to open the file!" << endl;
+    }
 
-    while (getline(inputFile, line)) {
-        string code, name, city, country, latitude, longitude;
-        istringstream ss2(line);
-        getline(ss2, code, ',');
-        getline(ss2, name, ',');
-        getline(ss2, city, ',');
-        getline(ss2, country, ',');
-        getline(ss2, latitude, ',');
-        getline(ss2, longitude);
+    string line; getline(file, line); //Ignore the first line
 
-        if (cities.empty() || cities.find(city + "/" + country) == cities.end()) {
-            City* newCity = new City(city, country);
-            cities.insert({city + "/" + country, newCity});
-        }
+    while(getline(file, line)) {
 
-        Airport* airport = new Airport(code, name, city, stof(latitude), stof(longitude));
-        airports.insert({code, airport});
+        istringstream iss(line);
 
-        cities[city + "/" + country]->addAirport(airport);
+        string code, name, callSign, country;
+        getline(iss, code, ',');
+        getline(iss, name, ',');
+        getline(iss, callSign, ',');
+        getline(iss, country, '\r');
+
+        Airline airline(code, name, callSign, country);
+
+        airlines.insert(airline);
     }
 }
 
 void AirTravelManager::readFlights(){
-    ifstream inputFile3("flights.csv");
-    string line;
-    getline(inputFile3, line);
+    ifstream file("../Information/flights.csv");
+    if(!file.is_open()){ //Check if we can open the file
+        cout << "Impossible to open the file!" << endl;
+    }
 
-    while (getline(inputFile3, line)) {
+    string line; getline(file, line); //Ignore the first line
+
+    while(getline(file, line)) {
+
+        istringstream iss(line);
+
         string source, target, airline;
+        getline(iss, source, ',');
+        getline(iss, target, ',');
+        getline(iss, airline, '\r');
 
-        istringstream ss(line);
-        getline(ss, source, ',');
-        getline(ss, target, ',');
-        getline(ss, airline);
 
-        Flight flight = Flight(target, airline);
+        Airport s;
+        Airport t;
 
-        airports[source]->addFlight(flight);
+        for(auto vert : bigGraph.getVertexSet()){
+            if(vert->getInfo().getCode() == source){
+                s = vert->getInfo();
+                break;
+            }
+        }
+
+        for(auto vert : bigGraph.getVertexSet()){
+            if(vert->getInfo().getCode() == target){
+                t = vert->getInfo();
+                break;
+            }
+        }
+        bigGraph.addEdge(s, t, airline);
     }
 }

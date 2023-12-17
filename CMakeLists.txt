@@ -9,7 +9,6 @@ add_executable(Flight_Management
         Code/Airline.h
         Code/Airport.cpp
         Code/Airport.h
-        Code/Graph.cpp
         Code/Graph.h
         Code/Menu.cpp
         Code/Menu.h

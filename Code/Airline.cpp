@@ -1,24 +1,28 @@
 #include "Airline.h"
 
 Airline::Airline(const string& code, const string& name, const string& callSign, const string& country){
-    this->code_ = code;
-    this->name_ = name;
-    this->callSign_ = callSign;
-    this->country_ = country;
+    this->code= code;
+    this->name = name;
+    this->callSign = callSign;
+    this->country = country;
 }
 
 string Airline::getCode() const{
-    return code_;
+    return code;
 }
 
 string Airline::getName() const{
-    return name_;
+    return name;
 }
 
 string Airline::getCallsign() const{
-    return callSign_;
+    return callSign;
 }
 
 string Airline::getCountry() const{
-    return country_;
+    return country;
+}
+
+bool Airline::operator<(const Airline &other) const {
+    return code < other.code;
 }

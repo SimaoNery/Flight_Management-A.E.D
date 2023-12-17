@@ -9,6 +9,7 @@ using namespace std;
 
 class Airport {
 public:
+    Airport() = default;
     Airport(string& code, string& name, string& city, string& country, float latitude, float longitude);
 
     string getCode();
@@ -18,14 +19,17 @@ public:
     float getLatitude();
     float getLongitude();
 
+
+    bool operator<(const Airport& other) const;
+    bool operator==(const Airport& other) const;
 private:
 
-    string code_;
-    string name_;
-    string city_;
-    string country_;
-    float latitude_;
-    float longitude_;
+    string code;
+    string name;
+    string city;
+    string country;
+    float latitude;
+    float longitude;
 };
 
 
