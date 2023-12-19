@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Flight_Management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Flight_Management-Debug-8587ad26351f7b1c3e3f.json",
+					"jsonFile" : "target-Flight_Management-Debug-483287a508c12b58c81d.json",
 					"name" : "Flight_Management",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug",
-		"source" : "/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management"
+		"build" : "/home/afonso/Desktop/Flight_Management/cmake-build-debug",
+		"source" : "/home/afonso/Desktop/Flight_Management"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 5
 	}
 }
