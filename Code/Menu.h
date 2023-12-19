@@ -3,7 +3,7 @@
 
 
 class Menu {
-
+    Menu();
 };
 
 

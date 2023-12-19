@@ -26,8 +26,8 @@ void AirTravelManager::readAirports(){
         getline(iss, lati, ',');
         getline(iss, longi, '\r');
 
-        double latitude = stod(lati); //convert string to double
-        double longitude = stod(longi); //convert string to double
+        float latitude = stod(lati); //convert string to float
+        float longitude = stod(longi); //convert string to float
 
         Airport airport(code, name, city, country, latitude, longitude);
 
@@ -81,22 +81,14 @@ void AirTravelManager::readFlights(){
         getline(iss, airline, '\r');
 
 
-        Airport s;
-        Airport t;
+        Airport s = *new Airport(source);
+        Airport t = *new Airport(target);
 
-        for(auto vert : bigGraph.getVertexSet()){
-            if(vert->getInfo().getCode() == source){
-                s = vert->getInfo();
-                break;
-            }
-        }
-
-        for(auto vert : bigGraph.getVertexSet()){
-            if(vert->getInfo().getCode() == target){
-                t = vert->getInfo();
-                break;
-            }
-        }
         bigGraph.addEdge(s, t, airline);
     }
+}
+
+int reachable_airports(Graph<Airport> graph, string airport, int stops){
+    set<Airport> result;
+
 }
