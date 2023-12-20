@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <unordered_set>
 #include "AirTravelManager.h"
 
 void AirTravelManager::readAirports(){
@@ -81,14 +82,54 @@ void AirTravelManager::readFlights(){
         getline(iss, airline, '\r');
 
 
-        Airport s = *new Airport(source);
-        Airport t = *new Airport(target);
+        Airport s = Airport(source);
+        Airport t = Airport(target);
+
 
         bigGraph.addEdge(s, t, airline);
     }
 }
 
-int reachable_airports(Graph<Airport> graph, string airport, int stops){
-    set<Airport> result;
 
+//----------------------------------Reachable Airports-----------------------------------------------------------------------//
+void AirTravelManager::reachable_destinations(string airport, int stops) { //basically a bfs
+    unordered_set<string> cities;
+    unordered_set<string> countries;
+    unordered_set<string> air;
+
+    Airport s = Airport(airport);
+    auto source = bigGraph.findVertex(s);
+    if(source == nullptr){ return;}
+
+    for(auto vert : bigGraph.getVertexSet()){
+        vert->setVisited(false);
+    }
+
+    queue<Vertex<Airport> *> aux;
+    aux.push(source);
+
+    while(!aux.empty()){
+        auto current = aux.front();
+        aux.pop();
+        cities.insert(current->getInfo().getCity());
+        countries.insert(current->getInfo().getCountry());
+        air.insert(current->getInfo().getCode());
+
+        for(auto edge : current->getAdj()){
+            auto destination = edge.getDest();
+            if(!destination->isVisited()){
+                aux.push(destination);
+                destination->setVisited(true);
+            }
+        }
+    }
+
+    cout << "------------------------------------------------------------" << "\n";
+    cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops << " stops, it's possible to reach: " << "\n" << "\n";
+
+    cout << air.size() << " airports  |   ";
+    cout << cities.size() << " cities  |  ";
+    cout << countries.size() <<" countries" << "\n";
+    cout << "------------------------------------------------------------" << "\n";
 }
+//------------------------------------------------------------------------------------------------------------------------//

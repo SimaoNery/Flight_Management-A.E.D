@@ -2,11 +2,15 @@
 #include "AirTravelManager.h"
 
 int main() {
+    cout << "\n" << "Getting information...." << "\n";
+
     AirTravelManager manager;
     manager.readAirlines();
     manager.readAirports();
     manager.readFlights();
 
+    cout << "Information acquired!" << "\n";
+    
     /* Test airports set
     cout << manager.airports.size() << "\n";
     for( auto airport : manager.airports){
@@ -41,4 +45,10 @@ int main() {
         cout << airport.first << " | " << airport.second.first << "-" << airport.second.second << "\n";
     }
     return 0;*/
+
+    //test to reachable_destinations
+    /*set<string> cities;
+    set<string> countries;
+    manager.reachable_destinations("CDG", 3);
+    return 0 ;*/
 }
