@@ -26,6 +26,7 @@ public:
     void readFlights();
 
     void reachable_destinations(string airport, int stops);
+    void maximum_trip();
 };
 
 

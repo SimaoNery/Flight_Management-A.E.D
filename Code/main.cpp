@@ -46,7 +46,10 @@ int main() {
     }
     return 0;*/
 
-    //test to reachable_destinations
-    /*manager.reachable_destinations("CDG", 3);*/
+    //test reachable_destinations
+    manager.reachable_destinations("CDG", 3);
+
+    //test maximum_trip
+    manager.maximum_trip();
     return 0 ;
 }

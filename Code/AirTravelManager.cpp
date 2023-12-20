@@ -105,20 +105,24 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
     queue<Vertex<Airport> *> aux;
     aux.push(source);
 
-    while(!aux.empty()){
-        auto current = aux.front();
-        aux.pop();
-        airportCity.insert(make_pair(current->getInfo().getCode(), make_pair(current->getInfo().getCity(), current->getInfo().getCountry())));
-        cities.insert(current->getInfo().getCity());
-        countries.insert(current->getInfo().getCountry());
+    while(!aux.empty() && stops >= 0){
+        int tamanho = aux.size();
+        for(int i = 0; i < tamanho; i++){
+            auto current = aux.front();
+            aux.pop();
+            airportCity.insert(make_pair(current->getInfo().getCode(), make_pair(current->getInfo().getCity(), current->getInfo().getCountry())));
+            cities.insert(current->getInfo().getCity());
+            countries.insert(current->getInfo().getCountry());
 
-        for(auto edge : current->getAdj()){
-            auto destination = edge.getDest();
-            if(!destination->isVisited()){
-                aux.push(destination);
-                destination->setVisited(true);
+            for(auto edge : current->getAdj()){
+                auto destination = edge.getDest();
+                if(!destination->isVisited()){
+                    aux.push(destination);
+                    destination->setVisited(true);
+                }
             }
         }
+        stops--;
     }
     char reachable_choice;
     cout << "Do you want to receive a list of the information (0) or values (1)?";
@@ -137,9 +141,67 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
         for(const auto& pair : airportCity){
             cout << "->" << pair.first << " in " << pair.second.first << ", " << pair.second.second << ";" << "\n";
         }
+        cout << "------------------------------------------------------------" << "\n";
     }
     else{
         cout << "Invalid input! Please try again." << "\n";
     }
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//----------------------Maximum Trip(s)--------------------------------------------------------------------------------------------------------------------------------------------------//
+void AirTravelManager::maximum_trip() {
+    int diameter = 0;
+    vector<pair<string, string>> res;
+
+    for(auto vert : bigGraph.getVertexSet()){
+        vert->setVisited(false);
+    }
+
+    for(auto vert : bigGraph.getVertexSet()){
+        int distance = 0;
+        vector<Airport> path;
+
+        queue<Vertex<Airport> *> aux;
+        aux.push(vert);
+        vert->setVisited(true);
+        path.push_back(vert->getInfo());
+
+        while(!aux.empty()){
+            int tamanho = aux.size();
+            for(int i = 0; i < tamanho; i++){
+                auto current = aux.front();
+                aux.pop();
+
+                for(auto edge : current->getAdj()){
+                    auto destination = edge.getDest();
+                    if(!destination->isVisited()){
+                        aux.push(destination);
+                        destination->setVisited(true);
+                        path.push_back(destination->getInfo());
+                    }
+                }
+            }
+            distance++;
+        }
+        if(distance > diameter){
+            diameter = distance;
+            res.clear();
+            res.emplace_back(path.front().getCode(), path.back().getCode());
+        }
+        else if(distance == diameter){
+            res.emplace_back(path.front().getCode(), path.back().getCode());
+        }
+    }
+
+    cout << "-----------------------------------------------" << "\n";
+    cout << "The maximum trip has: " << diameter << " stops! \n";
+    for(auto item : res){
+        cout << "Start: " << item.first << " | End: " << item.second << "\n";
+        if(res.size() > 1){
+            cout << "Or \n";
+        }
+    }
+    cout << "----------------------------------------------" << "\n";
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
