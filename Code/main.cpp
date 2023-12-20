@@ -10,7 +10,7 @@ int main() {
     manager.readFlights();
 
     cout << "Information acquired!" << "\n";
-    
+
     /* Test airports set
     cout << manager.airports.size() << "\n";
     for( auto airport : manager.airports){
@@ -47,8 +47,6 @@ int main() {
     return 0;*/
 
     //test to reachable_destinations
-    /*set<string> cities;
-    set<string> countries;
-    manager.reachable_destinations("CDG", 3);
-    return 0 ;*/
+    /*manager.reachable_destinations("CDG", 3);*/
+    return 0 ;
 }

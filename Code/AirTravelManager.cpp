@@ -33,8 +33,6 @@ void AirTravelManager::readAirports(){
         Airport airport(code, name, city, country, latitude, longitude);
 
         airports.insert(airport); //adds an airport to the set with all airports
-        airportCity.insert(make_pair(code, make_pair(city, country))); //adds a pair (code, (city, country)) to the map
-        airportCoordinates.insert(make_pair(code, make_pair(latitude, longitude))); //adds a pair(code, (latitude, longitude)) to the other map
 
         bigGraph.addVertex(airport); //adds the airport as a vertex of the graph
     }
@@ -91,11 +89,10 @@ void AirTravelManager::readFlights(){
 }
 
 
-//----------------------------------Reachable Airports-----------------------------------------------------------------------//
+//----------------------------------Reachable Airports------------------------------------------------------------------------------------------------------------------------------------//
 void AirTravelManager::reachable_destinations(string airport, int stops) { //basically a bfs
     unordered_set<string> cities;
     unordered_set<string> countries;
-    unordered_set<string> air;
 
     Airport s = Airport(airport);
     auto source = bigGraph.findVertex(s);
@@ -111,9 +108,9 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
     while(!aux.empty()){
         auto current = aux.front();
         aux.pop();
+        airportCity.insert(make_pair(current->getInfo().getCode(), make_pair(current->getInfo().getCity(), current->getInfo().getCountry())));
         cities.insert(current->getInfo().getCity());
         countries.insert(current->getInfo().getCountry());
-        air.insert(current->getInfo().getCode());
 
         for(auto edge : current->getAdj()){
             auto destination = edge.getDest();
@@ -123,13 +120,26 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
             }
         }
     }
-
-    cout << "------------------------------------------------------------" << "\n";
-    cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops << " stops, it's possible to reach: " << "\n" << "\n";
-
-    cout << air.size() << " airports  |   ";
-    cout << cities.size() << " cities  |  ";
-    cout << countries.size() <<" countries" << "\n";
-    cout << "------------------------------------------------------------" << "\n";
+    char reachable_choice;
+    cout << "Do you want to receive a list of the information (0) or values (1)?";
+    cin >> reachable_choice;
+    if(reachable_choice == '1'){
+        cout << "------------------------------------------------------------" << "\n";
+        cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops << " stops, it's possible to reach: " << "\n" << "\n";
+        cout << airportCity.size() << " airports  |   ";
+        cout << cities.size() << " cities  |  ";
+        cout << countries.size() <<" countries" << "\n";
+        cout << "------------------------------------------------------------" << "\n";
+    }
+    else if(reachable_choice == '0'){
+        cout << "------------------------------------------------------------" << "\n";
+        cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops << " stops, it's possible to reach: " << "\n" << "\n";
+        for(const auto& pair : airportCity){
+            cout << "->" << pair.first << " in " << pair.second.first << ", " << pair.second.second << ";" << "\n";
+        }
+    }
+    else{
+        cout << "Invalid input! Please try again." << "\n";
+    }
 }
-//------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
