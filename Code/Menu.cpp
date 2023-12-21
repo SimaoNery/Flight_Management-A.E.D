@@ -1,11 +1,7 @@
 #include "Menu.h"
 #include "AirTravelManager.h"
 
-void Menu::menu() {
-    AirTravelManager aux;
-    aux.readAirports();
-    aux.readAirlines();
-    aux.readFlights();
+void Menu::menu(AirTravelManager& aux) {
 
     while(true){
         cout << "|-----------------------------------|" << endl;
@@ -35,7 +31,7 @@ void Menu::menu() {
                     break;
                 }
                 v.push_back(location);
-                menu2(v);
+                menu2(aux, v);
                 break;
 
             case 2:
@@ -47,7 +43,7 @@ void Menu::menu() {
                     break;
                 }
                 v = aux.citytoAirport(location);
-                menu2(v);
+                menu2(aux,v);
                 break;
 
             case 3:
@@ -59,7 +55,7 @@ void Menu::menu() {
                     break;
                 }
                 v = aux.countrytoAirport(location);
-                menu2(v);
+                menu2(aux, v);
                 break;
 
             case 4:
@@ -68,7 +64,7 @@ void Menu::menu() {
                 cout << "Longitude: ";
                 cin >> longi;
                 v = aux.geotoAirport(lat, longi);
-                menu2(v);
+                menu2(aux, v);
                 break;
 
             case 0:
@@ -82,11 +78,7 @@ void Menu::menu() {
     }
 }
 
-void Menu::menu2(vector<string> &sourc) {
-    AirTravelManager aux;
-    aux.readAirports();
-    aux.readAirlines();
-    aux.readFlights();
+void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
 
     while (true) {
         cout << "|-----------------------------------|" << endl;
@@ -116,7 +108,7 @@ void Menu::menu2(vector<string> &sourc) {
                     break;
                 }
                 v.push_back(location);
-                menu3(sourc, v);
+                menu3(aux, sourc, v);
                 break;
 
             case 2:
@@ -128,7 +120,7 @@ void Menu::menu2(vector<string> &sourc) {
                     break;
                 }
                 v = aux.citytoAirport(location);
-                menu3(sourc, v);
+                menu3(aux, sourc, v);
                 break;
 
             case 3:
@@ -140,7 +132,7 @@ void Menu::menu2(vector<string> &sourc) {
                     break;
                 }
                 v = aux.countrytoAirport(location);
-                menu3(sourc, v);
+                menu3(aux, sourc, v);
                 break;
 
             case 4:
@@ -149,7 +141,7 @@ void Menu::menu2(vector<string> &sourc) {
                 cout << "Longitude: ";
                 cin >> longi;
                 v = aux.geotoAirport(lat, longi);
-                menu3(sourc, v);
+                menu3(aux, sourc, v);
                 break;
 
             case 0:
@@ -163,11 +155,7 @@ void Menu::menu2(vector<string> &sourc) {
     }
 }
 
-void Menu::menu3(vector<string> &sourc, vector<string> &dest) {
-    AirTravelManager aux;
-    aux.readAirports();
-    aux.readAirlines();
-    aux.readFlights();
+void Menu::menu3(AirTravelManager& aux, vector<string> &sourc, vector<string> &dest) {
 
     cout << "|-----------------------------------|" << endl;
     cout << "|  Do you want to apply filters?    |" << endl;
@@ -181,7 +169,7 @@ void Menu::menu3(vector<string> &sourc, vector<string> &dest) {
 
     switch (choice) {
         case 1:
-            menu4(sourc, dest);
+            menu4(aux, sourc, dest);
             break;
 
         case 2:
@@ -194,8 +182,7 @@ void Menu::menu3(vector<string> &sourc, vector<string> &dest) {
     }
 }
 
-void Menu::menu4(vector<string> &sourc, vector<string> &dest) {
-    AirTravelManager aux;
+void Menu::menu4(AirTravelManager& aux, vector<string> &sourc, vector<string> &dest) {
 
     while (true) {
         cout << "|-----------------------------------|" << endl;

@@ -4,14 +4,16 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "AirTravelManager.h"
+
 using namespace std;
 
 class Menu {
     public:
-        void menu();
-        void menu2(vector<string> &sourc);
-        void menu3(vector<string> &sourc, vector<string> &dest);
-        void menu4(vector<string> &sourc, vector<string> &dest);
+        void menu(AirTravelManager& aux);
+        void menu2(AirTravelManager& aux, vector<string> &sourc);
+        void menu3(AirTravelManager& aux, vector<string> &sourc, vector<string> &dest);
+        void menu4(AirTravelManager& aux, vector<string> &sourc, vector<string> &dest);
 };
 
 

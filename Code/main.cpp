@@ -3,8 +3,12 @@
 #include "Menu.h"
 
 int main() {
+    AirTravelManager aux;
+    aux.readAirports();
+    aux.readAirlines();
+    aux.readFlights();
     Menu menu;
-    menu.menu();
+    menu.menu(aux);
     return 0;
 
     /*
