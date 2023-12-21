@@ -1,11 +1,17 @@
 #include <iostream>
 #include "AirTravelManager.h"
+#include "Graph.h"
 
 int main() {
     AirTravelManager manager;
     manager.readAirlines();
     manager.readAirports();
     manager.readFlights();
+    manager.globalStats();
+    //manager.airportInfo(manager.bigGraph.getVertexSet()[0]);
+    //manager.airlineFlights(manager.getAirline(manager.bigGraph.getVertexSet()[0]->getAdj()[0].getAirline()));
+    //manager.cityFlights("Paris");
+    //manager.airportDestinations(manager.bigGraph.getVertexSet()[0]);
 
     /* Test airports set
     cout << manager.airports.size() << "\n";

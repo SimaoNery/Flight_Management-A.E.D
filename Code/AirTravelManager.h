@@ -24,6 +24,12 @@ public:
     void readAirports();
     void readAirlines();
     void readFlights();
+    void globalStats() const;
+    void airportInfo(Vertex<Airport> *& airport);
+    Airline getAirline(const string& code);
+    void airlineFlights(const Airline& airline) const;
+    void cityFlights(const string& city);
+    void airportDestinations(Vertex<Airport> *& airport);
 };
 
 

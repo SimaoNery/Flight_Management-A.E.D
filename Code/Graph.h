@@ -54,7 +54,7 @@ public:
 template <class T>
 class Edge {
     Vertex<T> * dest;      // destination vertex(Vertexes are airports)
-    string airline;         // wight of the edge is the *airline* responsible for the flight
+    string airline;         // weight of the edge is the *airline* responsible for the flight
 public:
     Edge(Vertex<T> *d, string airline);
     Vertex<T> *getDest() const;
