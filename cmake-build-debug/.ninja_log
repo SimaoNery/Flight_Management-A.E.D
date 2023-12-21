@@ -1,19 +1,13 @@
 # ninja log v5
-1	378	1703110761742246387	CMakeFiles/Flight_Management.dir/Code/main.cpp.o	72d9aba8e6a33fec
+1	388	1703115499260679736	CMakeFiles/Flight_Management.dir/Code/main.cpp.o	72d9aba8e6a33fec
 2	407	1703097816968711436	CMakeFiles/Flight_Management.dir/Code/Menu.cpp.o	62858c3c1233a7a1
 1	188	1703022715874842444	CMakeFiles/Flight_Management.dir/Code/Airport.cpp.o	956f15f19c9501ae
 1	284	1702752810275451820	CMakeFiles/Flight_Management.dir/Code/Graph.cpp.o	4dd9441e898d7411
 0	16	1702756302476272240	build.ninja	456f5b63d9c21b51
-748	825	1703110967154901952	Flight_Management	dfb743cb232f3d00
-0	747	1703110967074901683	CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o	b600b73b58f400c
+786	853	1703163856620837383	Flight_Management	dfb743cb232f3d00
+1	786	1703163856552837187	CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o	b600b73b58f400c
 1	132	1702776671284227709	CMakeFiles/Flight_Management.dir/Code/Airline.cpp.o	a1230b47d91f2b01
-0	392	1703111131119469555	CMakeFiles/Flight_Management.dir/Code/main.cpp.o	72d9aba8e6a33fec
-392	469	1703111131195469825	Flight_Management	dfb743cb232f3d00
-1	806	1703111512960947961	CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o	b600b73b58f400c
-806	877	1703111513032948253	Flight_Management	dfb743cb232f3d00
-1	372	1703111578221212145	CMakeFiles/Flight_Management.dir/Code/main.cpp.o	72d9aba8e6a33fec
-372	441	1703111578289212420	Flight_Management	dfb743cb232f3d00
-2	375	1703111598845295673	CMakeFiles/Flight_Management.dir/Code/main.cpp.o	72d9aba8e6a33fec
-375	445	1703111598917295964	Flight_Management	dfb743cb232f3d00
-0	372	1703111740097868178	CMakeFiles/Flight_Management.dir/Code/main.cpp.o	72d9aba8e6a33fec
-372	442	1703111740169868471	Flight_Management	dfb743cb232f3d00
+0	834	1703165013468529578	CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o	b600b73b58f400c
+834	904	1703165013540529818	Flight_Management	dfb743cb232f3d00
+1	740	1703165182617094885	CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o	b600b73b58f400c
+740	808	1703165182685095113	Flight_Management	dfb743cb232f3d00

@@ -155,10 +155,10 @@ void AirTravelManager::maximum_trip() {
     vector<pair<string, string>> res;
 
     for(auto vert : bigGraph.getVertexSet()){
-        vert->setVisited(false);
-    }
+        for(auto v : bigGraph.getVertexSet()){
+            v->setVisited(false);
+        }
 
-    for(auto vert : bigGraph.getVertexSet()){
         int distance = 0;
         vector<Airport> path;
 
@@ -183,24 +183,22 @@ void AirTravelManager::maximum_trip() {
                 }
             }
             distance++;
+            if(distance > diameter){
+                diameter = distance;
+                res.clear();
+                res.emplace_back(path.front().getCode(), path.back().getCode());
+            }
+            else if(distance == diameter){
+                res.emplace_back(path.front().getCode(), path.back().getCode());
+            }
         }
-        if(distance > diameter){
-            diameter = distance;
-            res.clear();
-            res.emplace_back(path.front().getCode(), path.back().getCode());
-        }
-        else if(distance == diameter){
-            res.emplace_back(path.front().getCode(), path.back().getCode());
-        }
+        path.clear();
     }
 
     cout << "-----------------------------------------------" << "\n";
     cout << "The maximum trip has: " << diameter << " stops! \n";
     for(auto item : res){
         cout << "Start: " << item.first << " | End: " << item.second << "\n";
-        if(res.size() > 1){
-            cout << "Or \n";
-        }
     }
     cout << "----------------------------------------------" << "\n";
 }

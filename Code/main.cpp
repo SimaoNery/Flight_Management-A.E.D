@@ -47,7 +47,7 @@ int main() {
     return 0;*/
 
     //test reachable_destinations
-    manager.reachable_destinations("CDG", 3);
+    /*manager.reachable_destinations("JFK", 3);*/
 
     //test maximum_trip
     manager.maximum_trip();
