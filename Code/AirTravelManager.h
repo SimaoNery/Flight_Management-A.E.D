@@ -38,6 +38,8 @@ public:
     void findFlights(vector<string> &source, vector<string> &destination);
     void findFlightsAirlines(vector<string> &source, vector<string> &destination, vector<string> &airlines);
     void findFlightsMin(vector<string> &source, vector<string> &destination);
+
+    vector<string> bestPath(string &source, string &destination);
 };
 
 

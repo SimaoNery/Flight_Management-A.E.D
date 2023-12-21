@@ -201,30 +201,6 @@ Code/Airport.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Flight_Management.dir/build.make CMakeFiles/Flight_Management.dir/Code/Airport.cpp.s
 .PHONY : Code/Airport.cpp.s
 
-Code/Graph.o: Code/Graph.cpp.o
-.PHONY : Code/Graph.o
-
-# target to build an object file
-Code/Graph.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Flight_Management.dir/build.make CMakeFiles/Flight_Management.dir/Code/Graph.cpp.o
-.PHONY : Code/Graph.cpp.o
-
-Code/Graph.i: Code/Graph.cpp.i
-.PHONY : Code/Graph.i
-
-# target to preprocess a source file
-Code/Graph.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Flight_Management.dir/build.make CMakeFiles/Flight_Management.dir/Code/Graph.cpp.i
-.PHONY : Code/Graph.cpp.i
-
-Code/Graph.s: Code/Graph.cpp.s
-.PHONY : Code/Graph.s
-
-# target to generate assembly for a file
-Code/Graph.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Flight_Management.dir/build.make CMakeFiles/Flight_Management.dir/Code/Graph.cpp.s
-.PHONY : Code/Graph.cpp.s
-
 Code/Menu.o: Code/Menu.cpp.o
 .PHONY : Code/Menu.o
 
@@ -291,9 +267,6 @@ help:
 	@echo "... Code/Airport.o"
 	@echo "... Code/Airport.i"
 	@echo "... Code/Airport.s"
-	@echo "... Code/Graph.o"
-	@echo "... Code/Graph.i"
-	@echo "... Code/Graph.s"
 	@echo "... Code/Menu.o"
 	@echo "... Code/Menu.i"
 	@echo "... Code/Menu.s"

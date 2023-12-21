@@ -1,10 +1,6 @@
 #include "Menu.h"
 #include "AirTravelManager.h"
 
-
-
-
-
 void Menu::menu() {
     AirTravelManager aux;
     aux.readAirports();
@@ -88,6 +84,9 @@ void Menu::menu() {
 
 void Menu::menu2(vector<string> &sourc) {
     AirTravelManager aux;
+    aux.readAirports();
+    aux.readAirlines();
+    aux.readFlights();
 
     while (true) {
         cout << "|-----------------------------------|" << endl;
@@ -166,6 +165,9 @@ void Menu::menu2(vector<string> &sourc) {
 
 void Menu::menu3(vector<string> &sourc, vector<string> &dest) {
     AirTravelManager aux;
+    aux.readAirports();
+    aux.readAirlines();
+    aux.readFlights();
 
     cout << "|-----------------------------------|" << endl;
     cout << "|  Do you want to apply filters?    |" << endl;

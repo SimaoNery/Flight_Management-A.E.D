@@ -52,6 +52,8 @@ public:
     void setLow(int low);
     int getDistance() const;
     void setDistance(int distance);
+    T getPrev() const;
+    void setPrev(T prev);
 
     friend class Graph<T>;
 };
@@ -91,7 +93,6 @@ public:
     vector<T> dfs() const;
     vector<T> dfs(const T & source) const;
     vector<T> bfs(const T &source) const;
-    vector<string> bfs_bestPaths(const string &source, const string &dest) const;
 };
 
 /****************** Provided constructors and functions ********************/
@@ -212,6 +213,16 @@ int Vertex<T>::getDistance() const {
 template <class T>
 void Vertex<T>::setDistance(int distance) {
     Vertex::distance = distance;
+}
+
+template <class T>
+T Vertex<T>::getPrev() const {
+    return prev;
+}
+
+template <class T>
+void Vertex<T>::setPrev(T prev) {
+    Vertex::prev = prev;
 }
 
 template<class T>
