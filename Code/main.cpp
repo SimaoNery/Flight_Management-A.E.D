@@ -50,6 +50,12 @@ int main() {
     /*manager.reachable_destinations("JFK", 3);*/
 
     //test maximum_trip
-    manager.maximum_trip();
+    /*manager.maximum_trip();*/
+
+    //test top_airports
+    /*manager.top_airports(3);*/
+
+    //test articulation_points
+    /*manager.articulation_points()*/
     return 0 ;
 }

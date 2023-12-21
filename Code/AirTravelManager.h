@@ -27,6 +27,8 @@ public:
 
     void reachable_destinations(string airport, int stops);
     void maximum_trip();
+    void top_airports(int k) const;
+    void articulation_points();
 };
 
 

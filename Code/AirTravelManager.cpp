@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include <unordered_set>
+#include <unordered_map>
 #include "AirTravelManager.h"
 
 void AirTravelManager::readAirports(){
@@ -203,3 +204,45 @@ void AirTravelManager::maximum_trip() {
     cout << "----------------------------------------------" << "\n";
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//----------Top k Airports-------------------------------------------------------------------------------------------------------------------------------------------------------------//
+struct AirportFlights{ // struct to order by int
+    Airport airport;
+    int flights;
+
+    bool operator<(const AirportFlights& other) const {
+        if(flights == other.flights){
+            return airport.getCode() < other.airport.getCode();
+        }
+        return flights > other.flights;
+    }
+};
+
+void AirTravelManager::top_airports(int k) const{
+    set<AirportFlights> res;
+    for(auto vert : bigGraph.getVertexSet()){
+        int count = vert->getAdj().size();
+        AirportFlights airportFlights{vert->getInfo(), count};
+        res.insert(airportFlights);
+    }
+
+    int aux = 0;
+    cout << "--------------------------------------------------------------" << "\n";
+    cout << "         This are the top " << k << " airports: " << "\n";
+    cout << "--------------------------------------------------------------" << "\n";
+    for(auto value : res){
+        if(aux > k){
+            cout << "--------------------------------------------------------------" << "\n";
+            return;
+        }
+        cout << value.airport.getCode() << "-" << value.airport.getName() << ": " << value.flights << " flights;" << "\n";
+        aux++;
+    }
+}
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//--------Articulation Points----------------------------------------------------------------------------------------------------------------------------------------------------------//
+void AirTravelManager::articulation_points() {
+
+}
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
