@@ -26,14 +26,12 @@ void AirTravelManager::readAirports(){
         getline(iss, lati, ',');
         getline(iss, longi, '\r');
 
-        double latitude = stod(lati); //convert string to double
-        double longitude = stod(longi); //convert string to double
+        float latitude = stod(lati); //convert string to float
+        float longitude = stod(longi); //convert string to float
 
         Airport airport(code, name, city, country, latitude, longitude);
 
         airports.insert(airport); //adds an airport to the set with all airports
-        airportCity.insert(make_pair(code, make_pair(city, country))); //adds a pair (code, (city, country)) to the map
-        airportCoordinates.insert(make_pair(code, make_pair(latitude, longitude))); //adds a pair(code, (latitude, longitude)) to the other map
 
         bigGraph.addVertex(airport); //adds the airport as a vertex of the graph
     }
@@ -81,22 +79,149 @@ void AirTravelManager::readFlights(){
         getline(iss, airline, '\r');
 
 
-        Airport s;
-        Airport t;
+        Airport s = Airport(source);
+        Airport t = Airport(target);
 
-        for(auto vert : bigGraph.getVertexSet()){
-            if(vert->getInfo().getCode() == source){
-                s = vert->getInfo();
-                break;
-            }
-        }
 
-        for(auto vert : bigGraph.getVertexSet()){
-            if(vert->getInfo().getCode() == target){
-                t = vert->getInfo();
-                break;
-            }
-        }
         bigGraph.addEdge(s, t, airline);
     }
+}
+
+bool AirTravelManager::findAirport(string &code) {
+    for(auto airport : airports){
+        if(airport.getCode() == code || airport.getName() == code){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findCity(string &city) {
+    for(auto airport : airports){
+        if(airport.getCity() == city){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findCountry(string &country) {
+    for(auto airport : airports){
+        if(airport.getCountry() == country){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findAirline(string &code) {
+    for(const auto& airline : airlines){
+        if(airline.getCode() == code || airline.getName() == code){
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<string> AirTravelManager::citytoAirport(string &city) {
+    vector<string> air;
+    for(const auto& airport : airportCity){
+        if(airport.second.first == city){
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+
+vector<string> AirTravelManager::countrytoAirport(string &country) {
+    vector<string> air;
+    for(const auto& airport : airportCity){
+        if(airport.second.second == country){
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+
+vector<string> AirTravelManager::geotoAirport(string &lat, string &longi) {}
+
+void AirTravelManager::findFlights(vector<string> &source, vector<string> &destination) {
+    vector<vector<string>> p;
+
+    for(auto& s : source){
+        for(auto& d : destination) {
+            auto path = bestPath(s, d);
+            if(!path.empty()){
+                p.push_back(path);
+            }
+        }
+    }
+
+    for(const auto& path : p){
+        for(const auto& airport : path){
+            cout << airport;
+        }
+        cout << endl;
+    }
+}
+
+vector<string> AirTravelManager::bestPath(string &source, string &destination) {
+    vector<string> res, dests;
+    string path = "";
+    Airport ss = Airport(source);
+    Airport dd = Airport(destination);
+    auto s = bigGraph.findVertex(ss);
+    auto d = bigGraph.findVertex(dd);
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q;
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if(!w->isVisited()) {
+                q.push(w);
+                w->setVisited(true);
+                w->setDistance(v->getDistance() + 1);
+                w->setPrev(v->getInfo());
+                if(w->getInfo() == destination) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) {
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) {
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        while(v->getInfo().getCode() != source) {
+            path = v->getInfo().getCode() + " " + path;
+            v = bigGraph.findVertex(v->getPrev());
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
 }

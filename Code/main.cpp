@@ -1,11 +1,18 @@
 #include <iostream>
 #include "AirTravelManager.h"
+#include "Menu.h"
 
 int main() {
+    Menu menu;
+    menu.menu();
+    return 0;
+
+    /*
     AirTravelManager manager;
     manager.readAirlines();
     manager.readAirports();
     manager.readFlights();
+     */
 
     /* Test airports set
     cout << manager.airports.size() << "\n";

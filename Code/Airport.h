@@ -11,6 +11,7 @@ class Airport {
 public:
     Airport() = default;
     Airport(string& code, string& name, string& city, string& country, float latitude, float longitude);
+    Airport(string& code);
 
     string getCode();
     string getName();
@@ -18,6 +19,13 @@ public:
     string getCountry();
     float getLatitude();
     float getLongitude();
+
+    void setCode(string& code);
+    void setName(string& name);
+    void setCity(string& city);
+    void setCountry(string& country);
+    void setLatitude(float latitude);
+    void setLongitude(float longitude);
 
 
     bool operator<(const Airport& other) const;

@@ -9,6 +9,7 @@
 #include <queue>
 #include <stack>
 #include <list>
+#include <string>
 
 using namespace std;
 
@@ -28,6 +29,8 @@ class Vertex {
     int indegree;          // auxiliary field
     int num;               // auxiliary field
     int low;               // auxiliary field
+    int distance;
+    T prev;
 
     void addEdge(Vertex<T> *dest, string airline);
     bool removeEdgeTo(Vertex<T> *d);
@@ -47,6 +50,10 @@ public:
     void setNum(int num);
     int getLow() const;
     void setLow(int low);
+    int getDistance() const;
+    void setDistance(int distance);
+    T getPrev() const;
+    void setPrev(T prev);
 
     friend class Graph<T>;
 };
@@ -54,7 +61,7 @@ public:
 template <class T>
 class Edge {
     Vertex<T> * dest;      // destination vertex(Vertexes are airports)
-    string airline;         // wight of the edge is the *airline* responsible for the flight
+    string airline;         // weight of the edge is the *airline* responsible for the flight
 public:
     Edge(Vertex<T> *d, string airline);
     Vertex<T> *getDest() const;
@@ -196,6 +203,26 @@ void Vertex<T>::setLow(int low) {
 template <class T>
 void Vertex<T>::setVisited(bool v) {
     Vertex::visited = v;
+}
+
+template <class T>
+int Vertex<T>::getDistance() const {
+    return distance;
+}
+
+template <class T>
+void Vertex<T>::setDistance(int distance) {
+    Vertex::distance = distance;
+}
+
+template <class T>
+T Vertex<T>::getPrev() const {
+    return prev;
+}
+
+template <class T>
+void Vertex<T>::setPrev(T prev) {
+    Vertex::prev = prev;
 }
 
 template<class T>
