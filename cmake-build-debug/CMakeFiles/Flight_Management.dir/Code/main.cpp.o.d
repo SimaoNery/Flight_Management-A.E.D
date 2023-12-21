@@ -169,4 +169,6 @@ CMakeFiles/Flight_Management.dir/Code/main.cpp.o: \
  /usr/include/c++/12/bits/deque.tcc /usr/include/c++/12/bits/stl_heap.h \
  /usr/include/c++/12/bits/stl_queue.h /usr/include/c++/12/stack \
  /usr/include/c++/12/bits/stl_stack.h \
- /home/afonso/Desktop/Flight_Management/Code/Airline.h
+ /home/afonso/Desktop/Flight_Management/Code/Airline.h \
+ /home/afonso/Desktop/Flight_Management/Code/Menu.h \
+ /usr/include/c++/12/sstream /usr/include/c++/12/bits/sstream.tcc

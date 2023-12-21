@@ -19,6 +19,13 @@ public:
     float getLatitude();
     float getLongitude();
 
+    void setCode(string& code);
+    void setName(string& name);
+    void setCity(string& city);
+    void setCountry(string& country);
+    void setLatitude(float latitude);
+    void setLongitude(float longitude);
+
 
     bool operator<(const Airport& other) const;
     bool operator==(const Airport& other) const;

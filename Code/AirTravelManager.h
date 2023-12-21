@@ -24,6 +24,20 @@ public:
     void readAirports();
     void readAirlines();
     void readFlights();
+
+    bool findAirport(string& code);
+    bool findCity(string& city);
+    bool findCountry(string& country);
+    bool findAirline(string& code);
+
+    vector<string> citytoAirport(string& city);
+    vector<string> countrytoAirport(string& country);
+    vector<string> geotoAirport(string& lat, string& longi);
+
+
+    void findFlights(vector<string> &source, vector<string> &destination);
+    void findFlightsAirlines(vector<string> &source, vector<string> &destination, vector<string> &airlines);
+    void findFlightsMin(vector<string> &source, vector<string> &destination);
 };
 
 

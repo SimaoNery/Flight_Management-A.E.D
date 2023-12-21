@@ -1,8 +1,9 @@
 #include "Graph.h"
 
 template <class T>
-vector<T> Graph<T>::bfs_bestPaths(const T &source, const T &dest) const {
-    vector<T> res, dests;
+vector<string> Graph<T>::bfs_bestPaths(const string &source, const string &dest) const {
+    vector<T> dests;
+    vector <string > res;
     string path = "";
     auto s = findVertex(source);
     auto d = findVertex(dest);
@@ -55,3 +56,4 @@ vector<T> Graph<T>::bfs_bestPaths(const T &source, const T &dest) const {
     }
     return res;
 }
+

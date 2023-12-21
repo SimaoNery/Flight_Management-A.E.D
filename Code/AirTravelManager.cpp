@@ -100,3 +100,93 @@ void AirTravelManager::readFlights(){
         bigGraph.addEdge(s, t, airline);
     }
 }
+
+bool AirTravelManager::findAirport(string &code) {
+    for(auto airport : airports){
+        if(airport.getCode() == code || airport.getName() == code){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findCity(string &city) {
+    for(auto airport : airports){
+        if(airport.getCity() == city){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findCountry(string &country) {
+    for(auto airport : airports){
+        if(airport.getCountry() == country){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findAirline(string &code) {
+    for(const auto& airline : airlines){
+        if(airline.getCode() == code || airline.getName() == code){
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<string> AirTravelManager::citytoAirport(string &city) {
+    vector<string> air;
+    for(const auto& airport : airportCity){
+        if(airport.second.first == city){
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+
+vector<string> AirTravelManager::countrytoAirport(string &country) {
+    vector<string> air;
+    for(const auto& airport : airportCity){
+        if(airport.second.second == country){
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+
+vector<string> AirTravelManager::geotoAirport(string &lat, string &longi) {
+    vector<string> air;
+    double latitude = stod(lat);
+    double longitude = stod(longi);
+    for (const auto &airport: airportCoordinates) {
+        if (airport.second.first == latitude && airport.second.second == longitude) {
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+
+void AirTravelManager::findFlights(vector<string> &source, vector<string> &destination) {
+    vector<vector<string>> p;
+
+    for(const auto& s : source){
+        for(const auto& d : destination) {
+            auto path = bigGraph.bfs_bestPaths(s, d);
+            if(!path.empty()){
+                p.push_back(path);
+            }
+        }
+    }
+
+    for(const auto& path : p){
+        for(const auto& airport : path){
+            cout << airport << " ";
+        }
+        cout << endl;
+    }
+
+
+}

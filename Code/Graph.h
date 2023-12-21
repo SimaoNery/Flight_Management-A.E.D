@@ -91,7 +91,7 @@ public:
     vector<T> dfs() const;
     vector<T> dfs(const T & source) const;
     vector<T> bfs(const T &source) const;
-    vector<T> bfs_bestPaths(const T &source, const T &dest) const;
+    vector<string> bfs_bestPaths(const string &source, const string &dest) const;
 };
 
 /****************** Provided constructors and functions ********************/
