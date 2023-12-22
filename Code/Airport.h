@@ -11,8 +11,9 @@ class Airport {
 public:
     Airport() = default;
     Airport(string& code, string& name, string& city, string& country, float latitude, float longitude);
+    Airport(string& code);
 
-    string getCode();
+    string getCode() const;
     string getName();
     string getCity();
     string getCountry();

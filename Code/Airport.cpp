@@ -9,7 +9,11 @@ Airport::Airport(string& code, string& name, string& city, string& country ,floa
     this->longitude = longitude;
 }
 
-string Airport::getCode(){
+Airport::Airport(string& code){
+    this->code = code;
+}
+
+string Airport::getCode() const{
     return code;
 }
 

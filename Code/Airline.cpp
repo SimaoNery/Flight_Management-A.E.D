@@ -7,6 +7,10 @@ Airline::Airline(const string& code, const string& name, const string& callSign,
     this->country = country;
 }
 
+Airline::Airline(const string& code){
+    this->code = code;
+}
+
 string Airline::getCode() const{
     return code;
 }

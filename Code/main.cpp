@@ -1,11 +1,25 @@
 #include <iostream>
 #include "AirTravelManager.h"
+#include "Graph.h"
 
 int main() {
+    cout << "\n" << "Getting information...." << "\n";
+
     AirTravelManager manager;
     manager.readAirlines();
     manager.readAirports();
     manager.readFlights();
+
+    cout << "Information acquired!" << "\n" << "\n";
+
+    //manager.globalStats();
+    //manager.airportInfo("CDG");
+    //manager.airlineFlights("RYR");
+    //manager.cityFlights("Paris");
+    //manager.airportCountries("CDG");
+    //manager.citiesCountries("Paris");
+    //manager.airportDestinations("CDG");
+
 
     /* Test airports set
     cout << manager.airports.size() << "\n";
@@ -40,5 +54,17 @@ int main() {
     for( auto airport : manager.airportCoordinates){
         cout << airport.first << " | " << airport.second.first << "-" << airport.second.second << "\n";
     }
-    return 0;*/
+
+    //test reachable_destinations
+    /*manager.reachable_destinations("JFK", 3);*/
+
+    //test maximum_trip
+    /*manager.maximum_trip();*/
+
+    //test top_airports
+    /*manager.top_airports(3);*/
+
+    //test articulation_points
+    /*manager.articulation_points()*/
+    return 0 ;
 }

@@ -6,7 +6,9 @@ using namespace std;
 
 class Airline {
 public:
+    Airline() = default;
     Airline(const string& code, const string& name, const string& callSign, const string& country);
+    Airline(const string& code);
 
     string getCode() const;
     string getName() const;
