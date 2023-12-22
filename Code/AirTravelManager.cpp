@@ -34,7 +34,8 @@ void AirTravelManager::readAirports(){
 
         Airport airport(code, name, city, country, latitude, longitude);
 
-        airports.insert(airport); //adds an airport to the set with all airports
+        airports.insert(airport.getCode()); //adds an airport to the set with all airports
+        cities.insert(city);
 
         bigGraph.addVertex(airport); //adds the airport as a vertex of the graph
     }
@@ -60,7 +61,7 @@ void AirTravelManager::readAirlines(){
 
         Airline airline(code, name, callSign, country);
 
-        airlines.insert(airline);
+        airlines.insert(airline.getCode());
     }
 }
 
@@ -87,11 +88,10 @@ void AirTravelManager::readFlights(){
         Airline a = Airline(airline);
 
         for(const auto& air : airlines){ //will get the full information of the airlines and put it has weight to the edges
-            if(a.getCode() == air.getCode()){
+            if(a.getCode() == air){
                 a = air;
             }
         }
-
 
         bigGraph.addEdge(s, t, a);
     }
@@ -151,7 +151,7 @@ void AirTravelManager::airportInfo(const string& airport) const {
 
 //--------Airline Flights-----------------------------------------------------------------------------------------------------------------//
 void AirTravelManager::airlineFlights(const string& airline) const {
-    unsigned count = 0;
+    int count = 0;
     Airline aux;
 
     unordered_set<string> airport;
@@ -368,6 +368,7 @@ void AirTravelManager::airportDestinations(const string& airport) const {
 void AirTravelManager::reachable_destinations(string airport, int stops) { //basically a bfs
     int stops_cout = stops;
 
+    unordered_map<string, pair<string, string>> airportCity;
     unordered_set<string> cities;
     unordered_set<string> countries;
 
