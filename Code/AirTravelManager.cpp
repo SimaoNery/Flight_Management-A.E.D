@@ -92,6 +92,8 @@ void AirTravelManager::readFlights(){
 
 //----------------------------------Reachable Airports------------------------------------------------------------------------------------------------------------------------------------//
 void AirTravelManager::reachable_destinations(string airport, int stops) { //basically a bfs
+    int stops_cout = stops;
+
     unordered_set<string> cities;
     unordered_set<string> countries;
 
@@ -111,9 +113,12 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
         for(int i = 0; i < tamanho; i++){
             auto current = aux.front();
             aux.pop();
-            airportCity.insert(make_pair(current->getInfo().getCode(), make_pair(current->getInfo().getCity(), current->getInfo().getCountry())));
-            cities.insert(current->getInfo().getCity());
-            countries.insert(current->getInfo().getCountry());
+
+            if (current != source) {
+                airportCity.insert(make_pair(current->getInfo().getCode(), make_pair(current->getInfo().getCity(), current->getInfo().getCountry())));
+                cities.insert(current->getInfo().getCity());
+                countries.insert(current->getInfo().getCountry());
+            }
 
             for(auto edge : current->getAdj()){
                 auto destination = edge.getDest();
@@ -130,7 +135,7 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
     cin >> reachable_choice;
     if(reachable_choice == '1'){
         cout << "------------------------------------------------------------" << "\n";
-        cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops << " stops, it's possible to reach: " << "\n" << "\n";
+        cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops_cout << " stops, it's possible to reach: " << "\n" << "\n";
         cout << airportCity.size() << " airports  |   ";
         cout << cities.size() << " cities  |  ";
         cout << countries.size() <<" countries" << "\n";
@@ -160,7 +165,7 @@ void AirTravelManager::maximum_trip() {
             v->setVisited(false);
         }
 
-        int distance = 0;
+        int distance = -1;
         vector<Airport> path;
 
         queue<Vertex<Airport> *> aux;
@@ -242,7 +247,56 @@ void AirTravelManager::top_airports(int k) const{
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------Articulation Points----------------------------------------------------------------------------------------------------------------------------------------------------------//
-void AirTravelManager::articulation_points() {
+void articulation_points_aux(Vertex<Airport>* vert, Vertex<Airport>* parent, int& children, set<Airport>& res, int& num){
+    vert->setVisited(true);
+    vert->setNum(num);
+    vert->setLow(num);
+    num++;
 
+    for(const auto& edge : vert->getAdj()){
+        auto destination = edge.getDest();
+        if(!destination->isVisited()){
+            children++;
+            articulation_points_aux(destination,vert , children, res, num);
+            vert->setLow(min(vert->getLow(), destination->getLow()));
+
+            if(parent != NULL && destination->getLow() >= vert->getNum()){
+                res.insert(vert->getInfo());
+            }
+        }
+        else{
+            vert->setLow(min(vert->getLow(), destination->getNum()));
+        }
+
+    }
+    if(parent == NULL && children > 1) {
+        res.insert(vert->getInfo());
+    }
+}
+
+void AirTravelManager::articulation_points() const {
+    set<Airport> res;
+
+    for(auto vert : bigGraph.getVertexSet()){
+        vert->setVisited(false);
+        vert->setNum(0);
+        vert->setLow(0);
+    }
+
+    for(auto vert : bigGraph.getVertexSet()){
+        int num = 0;
+
+        if(!vert->isVisited()){
+            int children = 0;
+            articulation_points_aux(vert, NULL, children, res, num);
+        }
+    }
+
+    cout << "------------------------------------------------------------------" << "\n";
+    cout << "There are " << res.size() << " essential airports in the network: " << "\n";
+    for(auto valor : res){
+        cout << valor.getCode() << "-" << valor.getName() << "\n";
+    }
+    cout << "------------------------------------------------------------------";
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
