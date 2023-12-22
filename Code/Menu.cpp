@@ -1,6 +1,17 @@
 #include "Menu.h"
 #include "AirTravelManager.h"
 
+int readOption(int optionsCount) {
+    string option;
+    while(true) {
+        getline(cin, option);
+        cout << endl;
+        if(option.length() == 1 && isdigit(option[0]) && stoi(option) <= optionsCount && stoi(option) >= 0) break;
+        cout << "Invalid input, please try again.\n";
+    }
+    return stoi(option);
+}
+
 void Menu::menu(AirTravelManager& aux) {
 
     while(true){
@@ -16,16 +27,15 @@ void Menu::menu(AirTravelManager& aux) {
         cout << "| 0-> Leave                         |" << endl;
         cout << "|-----------------------------------|" << endl;
 
-        int choice = 0;
         cout << "What type of location you want to choose for source? (1,2,3,4)" << endl;
-        cin >> choice;
+        int option = readOption(4);
         string location, lat, longi;
         vector<string> v;
-        switch(choice){
+        switch(option){
             case 1:
                 //names with spaces are not working
                 cout << "Airport name or code: ";
-                cin >> location;
+                getline(cin, location);
                 if(!aux.findAirport(location)) {
                     cout << "Airport not found!" << endl;
                     break;
@@ -37,7 +47,7 @@ void Menu::menu(AirTravelManager& aux) {
             case 2:
                 //names with spaces are not working
                 cout << "City name: ";
-                cin >> location;
+                getline(cin, location);
                 if(!aux.findCity(location)) {
                     cout << "City not found!" << endl;
                     break;
@@ -49,7 +59,7 @@ void Menu::menu(AirTravelManager& aux) {
             case 3:
                 //names with spaces are not working
                 cout << "Country name: ";
-                cin >> location;
+                getline(cin, location);
                 if(!aux.findCountry(location)) {
                     cout << "Country not found!" << endl;
                     break;
@@ -72,7 +82,6 @@ void Menu::menu(AirTravelManager& aux) {
                 exit(0);
 
             default:
-                cout << "Invalid choice!" << endl;
                 return;
         }
     }
@@ -93,16 +102,15 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
         cout << "| 0-> Leave                         |" << endl;
         cout << "|-----------------------------------|" << endl;
 
-        int choice = 0;
         cout << "What type of location you want to choose for destiny? (1,2,3,4)" << endl;
-        cin >> choice;
+        int option = readOption(4);
         string location, lat, longi;
         vector<string> v;
-        switch (choice) {
+        switch (option) {
             case 1:
                 //names with spaces are not working
                 cout << "Airport name or code: ";
-                cin >> location;
+                getline(cin, location);
                 if (!aux.findAirport(location)) {
                     cout << "Airport not found!" << endl;
                     break;
@@ -114,7 +122,7 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
             case 2:
                 //names with spaces are not working
                 cout << "City name: ";
-                cin >> location;
+                getline(cin, location);
                 if (!aux.findCity(location)) {
                     cout << "City not found!" << endl;
                     break;
@@ -126,7 +134,7 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
             case 3:
                 //names with spaces are not working
                 cout << "Country name: ";
-                cin >> location;
+                getline(cin, location);
                 if (!aux.findCountry(location)) {
                     cout << "Country not found!" << endl;
                     break;
@@ -164,10 +172,9 @@ void Menu::menu3(AirTravelManager& aux, vector<string> &sourc, vector<string> &d
     cout << "| 2-> No                            |" << endl;
     cout << "|-----------------------------------|" << endl;
 
-    int choice = 0;
-    cin >> choice;
+    int option = readOption(2);
 
-    switch (choice) {
+    switch (option) {
         case 1:
             menu4(aux, sourc, dest);
             break;
@@ -193,14 +200,14 @@ void Menu::menu4(AirTravelManager& aux, vector<string> &sourc, vector<string> &d
         cout << "|                                   |" << endl;
         cout << "|-----------------------------------|" << endl;
 
-        int choice = 0;
         cout << "What type of filters do you want? (1,2)" << endl;
-        cin >> choice;
+
+        int option = readOption(2);
         string input, airline;
         vector<string> airlines;
         istringstream iss;
 
-        switch (choice) {
+        switch (option) {
             case 1:
                 cout << "Choose the airlines you want to use (separated by spaces and using only the airlines code): " << endl;
                 getline(cin, input);
