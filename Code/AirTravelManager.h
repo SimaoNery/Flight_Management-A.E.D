@@ -25,6 +25,13 @@ public:
     void readAirlines();
     void readFlights();
 
+    void globalStats() const;
+    void airportInfo(const string& airport) const;
+    void airlineFlights(const string& airline) const;
+    void cityFlights(const string& city);
+    void airportCountries(const string& airport) const;
+    void citiesCountries(const string& city) const;
+    void airportDestinations(const string& airport) const;
     void reachable_destinations(string airport, int stops);
     void maximum_trip();
     void top_airports(int k) const;
