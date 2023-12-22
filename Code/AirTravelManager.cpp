@@ -571,6 +571,7 @@ void AirTravelManager::articulation_points() const {
 
     cout << "------------------------------------------------------------------" << "\n";
     cout << "There are " << res.size() << " essential airports in the network: " << "\n";
+    cout << "------------------------------------------------------------------" << "\n";
     for(auto valor : res){
         cout << valor.getCode() << "-" << valor.getName() << "\n";
     }

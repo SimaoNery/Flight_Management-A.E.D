@@ -65,6 +65,6 @@ int main() {
     /*manager.top_airports(3);*/
 
     //test articulation_points
-    /*manager.articulation_points()*/
+    manager.articulation_points();
     return 0 ;
 }
