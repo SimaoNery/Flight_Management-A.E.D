@@ -6,7 +6,6 @@
 #include "Graph.h"
 using namespace std;
 
-
 class Airport {
 public:
     Airport() = default;
@@ -20,6 +19,13 @@ public:
     float getLatitude();
     float getLongitude();
 
+    void setCode(string& code);
+    void setName(string& name);
+    void setCity(string& city);
+    void setCountry(string& country);
+    void setLatitude(float latitude);
+    void setLongitude(float longitude);
+
 
     bool operator<(const Airport& other) const;
     bool operator==(const Airport& other) const;
@@ -32,6 +38,5 @@ private:
     float latitude;
     float longitude;
 };
-
 
 #endif //PROJAED2_AIRPORT_H

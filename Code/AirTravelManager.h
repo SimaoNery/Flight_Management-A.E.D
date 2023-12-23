@@ -12,8 +12,8 @@ using namespace std;
 
 class AirTravelManager {
 public:
-    unordered_set<string> airports; //all airports(will help with statistic type questions)sets are faster
-    unordered_set<string> airlines; //all airlines(will help with statistic type questions)sets are faster
+    unordered_map<string, pair<string, pair<string, string>>> airports; //all airports(code | name | city | country)
+    unordered_map<string, string> airlines; //all airlines(will help with statistic type questions)sets are faster
     unordered_set<string> cities; //all cities
 
     Graph<Airport> bigGraph; //graph with every flight existent(will help in filters)
@@ -33,6 +33,22 @@ public:
     void maximum_trip();
     void top_airports(int k) const;
     void articulation_points() const;
+
+    bool findAirport(string& code);
+    bool findCity(string& city);
+    bool findCountry(string& country);
+    bool findAirline(string& code);
+
+    vector<string> cityToAirport(string& city);
+    vector<string> countryToAirport(string& country);
+    vector<string> geoToAirport(string& lat, string& longi);
+
+
+    void findFlights(vector<string> &source, vector<string> &destination);
+    void findFlightsAirlines(vector<string> &source, vector<string> &destination, vector<string> &airlines);
+    void findFlightsMin(vector<string> &source, vector<string> &destination);
+
+    vector<string> bestPath(string &source, string &destination);
 };
 
 
