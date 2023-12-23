@@ -167,9 +167,17 @@ void AirTravelManager::findFlights(vector<string> &source, vector<string> &desti
 
 vector<string> AirTravelManager::bestPath(string &source, string &destination) {
     vector<string> res, dests;
-    string path = "";
-    Airport ss = Airport(source);
-    Airport dd = Airport(destination);
+    string path;
+    Airport ss;
+    Airport dd;
+    for(auto i: airports){
+        if(i.getCode() == source || i.getName() == source){
+            ss=i;
+        }
+        if(i.getCode() == destination || i.getName() == destination){
+            dd=i;
+        }
+    }
     auto s = bigGraph.findVertex(ss);
     auto d = bigGraph.findVertex(dd);
     if(s == nullptr || d == nullptr) {
@@ -194,7 +202,7 @@ vector<string> AirTravelManager::bestPath(string &source, string &destination) {
                 w->setVisited(true);
                 w->setDistance(v->getDistance() + 1);
                 w->setPrev(v->getInfo());
-                if(w->getInfo() == destination) {
+                if(w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
                     dests.push_back(w->getInfo().getCode());
                 }
             }
@@ -215,9 +223,17 @@ vector<string> AirTravelManager::bestPath(string &source, string &destination) {
     }
     for(auto r : dests) {
         auto v = bigGraph.findVertex(r);
-        while(v->getInfo().getCode() != source) {
-            path = v->getInfo().getCode() + " " + path;
-            v = bigGraph.findVertex(v->getPrev());
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
         }
         path = v->getInfo().getCode() + " " + path;
         res.push_back(path);
