@@ -10,9 +10,6 @@ int main() {
     manager.readAirports();
     manager.readFlights();
 
-    Menu menu;
-    menu.menu(manager);
-
     cout << "Information acquired!" << "\n" << "\n";
 
     return 0 ;

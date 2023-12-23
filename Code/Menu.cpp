@@ -52,7 +52,7 @@ void Menu::menu(AirTravelManager& aux) {
                     cout << "City not found!" << endl;
                     break;
                 }
-                v = aux.citytoAirport(location);
+                v = aux.cityToAirport(location);
                 menu2(aux,v);
                 break;
 
@@ -64,7 +64,7 @@ void Menu::menu(AirTravelManager& aux) {
                     cout << "Country not found!" << endl;
                     break;
                 }
-                v = aux.countrytoAirport(location);
+                v = aux.countryToAirport(location);
                 menu2(aux, v);
                 break;
 
@@ -73,7 +73,7 @@ void Menu::menu(AirTravelManager& aux) {
                 cin >> lat;
                 cout << "Longitude: ";
                 cin >> longi;
-                v = aux.geotoAirport(lat, longi);
+                v = aux.geoToAirport(lat, longi);
                 menu2(aux, v);
                 break;
 
@@ -127,7 +127,7 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
                     cout << "City not found!" << endl;
                     break;
                 }
-                v = aux.citytoAirport(location);
+                v = aux.cityToAirport(location);
                 menu3(aux, sourc, v);
                 break;
 
@@ -139,7 +139,7 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
                     cout << "Country not found!" << endl;
                     break;
                 }
-                v = aux.countrytoAirport(location);
+                v = aux.countryToAirport(location);
                 menu3(aux, sourc, v);
                 break;
 
@@ -148,7 +148,7 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
                 cin >> lat;
                 cout << "Longitude: ";
                 cin >> longi;
-                v = aux.geotoAirport(lat, longi);
+                v = aux.geoToAirport(lat, longi);
                 menu3(aux, sourc, v);
                 break;
 
