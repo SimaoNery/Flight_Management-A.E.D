@@ -125,9 +125,9 @@ bool AirTravelManager::findAirline(string &code) {
 
 vector<string> AirTravelManager::citytoAirport(string &city) {
     vector<string> air;
-    for(const auto& airport : airportCity){
-        if(airport.second.first == city){
-            air.push_back(airport.first);
+    for(auto airport : airports){
+        if(airport.getCity() == city){
+            air.push_back(airport.getCode());
         }
     }
     return air;
@@ -135,12 +135,11 @@ vector<string> AirTravelManager::citytoAirport(string &city) {
 
 vector<string> AirTravelManager::countrytoAirport(string &country) {
     vector<string> air;
-    for(const auto& airport : airportCity){
-        if(airport.second.second == country){
-            air.push_back(airport.first);
+    for(auto airport : airports){
+        if(airport.getCountry() == country){
+            air.push_back(airport.getCode());
         }
     }
-    return air;
 }
 
 vector<string> AirTravelManager::geotoAirport(string &lat, string &longi) {}

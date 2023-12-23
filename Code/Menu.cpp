@@ -33,7 +33,6 @@ void Menu::menu(AirTravelManager& aux) {
         vector<string> v;
         switch(option){
             case 1:
-                //names with spaces are not working
                 cout << "Airport name or code: ";
                 getline(cin, location);
                 if(!aux.findAirport(location)) {
@@ -45,7 +44,6 @@ void Menu::menu(AirTravelManager& aux) {
                 break;
 
             case 2:
-                //names with spaces are not working
                 cout << "City name: ";
                 getline(cin, location);
                 if(!aux.findCity(location)) {
@@ -57,7 +55,6 @@ void Menu::menu(AirTravelManager& aux) {
                 break;
 
             case 3:
-                //names with spaces are not working
                 cout << "Country name: ";
                 getline(cin, location);
                 if(!aux.findCountry(location)) {
@@ -108,7 +105,6 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
         vector<string> v;
         switch (option) {
             case 1:
-                //names with spaces are not working
                 cout << "Airport name or code: ";
                 getline(cin, location);
                 if (!aux.findAirport(location)) {
@@ -120,7 +116,6 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
                 break;
 
             case 2:
-                //names with spaces are not working
                 cout << "City name: ";
                 getline(cin, location);
                 if (!aux.findCity(location)) {
@@ -132,7 +127,6 @@ void Menu::menu2(AirTravelManager& aux, vector<string> &sourc) {
                 break;
 
             case 3:
-                //names with spaces are not working
                 cout << "Country name: ";
                 getline(cin, location);
                 if (!aux.findCountry(location)) {
