@@ -12,5 +12,8 @@ int main() {
 
     cout << "Information acquired!" << "\n" << "\n";
 
+    Menu menu;
+    menu.menu0(manager);
+
     return 0 ;
 }

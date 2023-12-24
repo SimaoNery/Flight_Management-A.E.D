@@ -14,7 +14,7 @@ using namespace std;
 class AirTravelManager {
 public:
     unordered_map<string, pair<string, pair<string, string>>> airports; //all airports(code | name | city | country)
-    unordered_map<string, string> airlines; //all airlines(will help with statistic type questions)sets are faster
+    unordered_map<string, string> airlines; //all airlines(code | name)
     unordered_set<string> cities; //all cities
 
     Graph<Airport> bigGraph; //graph with every flight existent(will help in filters)

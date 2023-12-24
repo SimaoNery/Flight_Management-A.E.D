@@ -14,6 +14,7 @@ public:
     string getName() const;
     string getCallsign() const;
     string getCountry() const;
+    void setName(string name);
 
     bool operator<(const Airline& other) const;
 
