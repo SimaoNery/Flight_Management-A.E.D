@@ -34,6 +34,7 @@ public:
     vector<string> countrytoAirport(string& country);
     vector<string> geotoAirport(string& lat, string& longi);
 
+    static double haversine(double lat1, double lon1, double lat2, double lon2);
 
     void findFlights(vector<string> &source, vector<string> &destination);
     void findFlightsAirlines(vector<string> &source, vector<string> &destination, vector<string> &airlines);

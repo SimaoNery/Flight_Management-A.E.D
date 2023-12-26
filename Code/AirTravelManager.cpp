@@ -142,7 +142,43 @@ vector<string> AirTravelManager::countrytoAirport(string &country) {
     }
 }
 
-vector<string> AirTravelManager::geotoAirport(string &lat, string &longi) {}
+vector<string> AirTravelManager::geotoAirport(string &lat, string &longi) {
+    vector<string> air;
+    bool flag = true;
+    double shortest;
+    for(auto airport : airports){
+        if(flag) {
+           shortest = haversine(airport.getLatitude(), airport.getLongitude(), stod(lat), stod(longi));
+           flag = false;
+        }else {
+            if(haversine(airport.getLatitude(), airport.getLongitude(), stod(lat), stod(longi)) < shortest) {
+                shortest = haversine(airport.getLatitude(), airport.getLongitude(), stod(lat), stod(longi));
+            }
+        }
+    }
+    for(auto airport : airports){
+        if(haversine(airport.getLatitude(), airport.getLongitude(), stod(lat), stod(longi)) == shortest){
+            air.push_back(airport.getCode());
+        }
+    }
+    return air;
+}
+
+double AirTravelManager::haversine(double lat1, double lon1, double lat2, double lon2) {
+    double R = 6372.8; // Earth radius in kilometers
+
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLon = (lon2 - lon1) * M_PI / 180.0;
+
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    double a = pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
+
+    double c = 2 * asin(sqrt(a));
+
+    return R * c;
+}
 
 void AirTravelManager::findFlights(vector<string> &source, vector<string> &destination) {
     vector<vector<string>> p;
