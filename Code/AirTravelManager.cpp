@@ -169,14 +169,11 @@ double AirTravelManager::haversine(double lat1, double lon1, double lat2, double
 
     double dLat = (lat2 - lat1) * M_PI / 180.0;
     double dLon = (lon2 - lon1) * M_PI / 180.0;
-
     lat1 = (lat1) * M_PI / 180.0;
     lat2 = (lat2) * M_PI / 180.0;
 
     double a = pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
-
     double c = 2 * asin(sqrt(a));
-
     return R * c;
 }
 
@@ -190,6 +187,47 @@ void AirTravelManager::findFlights(vector<string> &source, vector<string> &desti
                 p.push_back(path);
             }
         }
+    }
+
+    bool flag = true;
+    int min, count = 0;
+    for(auto& path : p){
+        if(flag){
+            for(char c : path[0]){
+                if(c == ' '){
+                    count++;
+                }
+            }
+            cout << count << endl;
+            min = count;
+            count = 0;
+            flag = false;
+        }else{
+            for(char c : path[0]){
+                if(c == ' '){
+                    count++;
+                }
+            }
+            if(count < min){
+                min = count;
+                count = 0;
+            }
+            count = 0;
+        }
+    }
+
+    for(auto it = p.begin(); it != p.end(); ) {
+        for(char c : (*it)[0]){
+            if(c == ' '){
+                count++;
+            }
+        }
+        if(count > min){
+            it = p.erase(it);
+        }else{
+            ++it;
+        }
+        count = 0;
     }
 
     for(const auto& path : p){
