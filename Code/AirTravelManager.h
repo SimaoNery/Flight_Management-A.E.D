@@ -14,6 +14,7 @@ using namespace std;
 class AirTravelManager {
 public:
     unordered_map<string, pair<string, pair<string, string>>> airports; //all airports(code | name | city | country)
+    unordered_map<string, pair<float, float>> coords; //coordinates of all airports
     unordered_map<string, string> airlines; //all airlines(code | name)
     unordered_set<string> cities; //all cities
 
@@ -30,7 +31,7 @@ public:
     void airportCountries(const string& airport) const;
     void citiesCountries(const string& city) const;
     void airportDestinations(const string& airport) const;
-    void reachable_destinations(string airport, int stops);
+    void reachable_destinations(string airport, int stops) const;
     void maximum_trip();
     void top_airports(int k) const;
     void articulation_points() const;
@@ -44,6 +45,7 @@ public:
     vector<string> countryToAirport(string& country);
     vector<string> geoToAirport(string& lat, string& longi);
 
+    static double haversine(double lat1, double lon1, double lat2, double lon2);
 
     void findFlights(vector<string> &source, vector<string> &destination);
     void findFlightsAirlines(vector<string> &source, vector<string> &destination, vector<string> &airlines);

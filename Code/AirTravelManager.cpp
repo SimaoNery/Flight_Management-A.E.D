@@ -35,6 +35,7 @@ void AirTravelManager::readAirports(){
         Airport airport(code, name, city, country, latitude, longitude);
 
         airports.insert(make_pair(airport.getCode(), make_pair(airport.getName(), make_pair(airport.getCity(), airport.getCountry())))); //airport information (code | name | city | country)
+        coords.insert(make_pair(airport.getCode(), make_pair(airport.getLatitude(), airport.getLongitude())));
         cities.insert(city);
 
         bigGraph.addVertex(airport); //adds the airport as a vertex of the graph
@@ -376,7 +377,7 @@ void AirTravelManager::airportDestinations(const string& airport) const {
 //------------------------------------------------------------------------------------------------------------------------------//
 
 //----------------------------------Reachable Airports------------------------------------------------------------------------------------------------------------------------------------//
-void AirTravelManager::reachable_destinations(string airport, int stops) { //basically a bfs
+void AirTravelManager::reachable_destinations(string airport, int stops) const { //basically a bfs
     int stops_cout = stops;
 
     unordered_map<string, pair<string, string>> airportCity;
@@ -651,15 +652,46 @@ vector<string> AirTravelManager::cityToAirport(string &city) {
 
 vector<string> AirTravelManager::countryToAirport(string &country) {
     vector<string> air;
-    for(const auto& airport : airports){
-        if(airport.second.second.second == country){
+    for(const auto& airport : airports) {
+        if (airport.second.second.second == country) {
+            air.push_back(airport.first);
+        }
+    }
+}
+vector<string> AirTravelManager::geoToAirport(string &lat, string &longi) {
+    vector<string> air;
+    bool flag = true;
+    double shortest;
+    for(const auto& airport : coords){
+        if(flag) {
+           shortest = haversine(airport.second.first, airport.second.second, stod(lat), stod(longi));
+           flag = false;
+        }else {
+            if(haversine(airport.second.first, airport.second.second, stod(lat), stod(longi)) < shortest) {
+                shortest = haversine(airport.second.first, airport.second.second, stod(lat), stod(longi));
+            }
+        }
+    }
+    for(const auto& airport : coords){
+        if(haversine(airport.second.first, airport.second.second, stod(lat), stod(longi)) == shortest){
             air.push_back(airport.first);
         }
     }
     return air;
 }
 
-vector<string> AirTravelManager::geoToAirport(string &lat, string &longi) {}
+double AirTravelManager::haversine(double lat1, double lon1, double lat2, double lon2) {
+    double R = 6372.8; // Earth radius in kilometers
+
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLon = (lon2 - lon1) * M_PI / 180.0;
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    double a = pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
+    double c = 2 * asin(sqrt(a));
+    return R * c;
+}
 
 void AirTravelManager::findFlights(vector<string> &source, vector<string> &destination) {
     vector<vector<string>> p;
@@ -671,6 +703,47 @@ void AirTravelManager::findFlights(vector<string> &source, vector<string> &desti
                 p.push_back(path);
             }
         }
+    }
+
+    bool flag = true;
+    int min, count = 0;
+    for(auto& path : p){
+        if(flag){
+            for(char c : path[0]){
+                if(c == ' '){
+                    count++;
+                }
+            }
+            cout << count << endl;
+            min = count;
+            count = 0;
+            flag = false;
+        }else{
+            for(char c : path[0]){
+                if(c == ' '){
+                    count++;
+                }
+            }
+            if(count < min){
+                min = count;
+                count = 0;
+            }
+            count = 0;
+        }
+    }
+
+    for(auto it = p.begin(); it != p.end(); ) {
+        for(char c : (*it)[0]){
+            if(c == ' '){
+                count++;
+            }
+        }
+        if(count > min){
+            it = p.erase(it);
+        }else{
+            ++it;
+        }
+        count = 0;
     }
 
     for(const auto& path : p){
