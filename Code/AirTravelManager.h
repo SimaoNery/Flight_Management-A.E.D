@@ -100,12 +100,7 @@ public:
     /// Finds the best path between all the combinations of source-destination airports(if it is a country or city) and prints them
     /// \param source Source Airport
     /// \param destination Destination Airport
-    void findFlights(vector<string> &source, vector<string> &destination);
-    ///  NOT DONE YET
-    /// \param source
-    /// \param destination
-    /// \param airlines
-    void findFlightsAirlines(vector<string> &source, vector<string> &destination, vector<string> &airlines);
+    void findFlights(vector<string> &source, vector<string> &destination, vector<string> &air);
     ///  NOT DONE YET
     /// \param source
     /// \param destination
@@ -116,6 +111,8 @@ public:
     /// \param destination Destination Airport
     /// \return Vector with the bestPath (all the best path if more than one)
     vector<string> bestPath(string &source, string &destination);
+
+    vector<string> bestPathFiltered(string &source, string &destination, vector<string> &airlines);
 };
 
 

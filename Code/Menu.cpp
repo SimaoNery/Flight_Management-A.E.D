@@ -225,14 +225,15 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
     cout << " ----------------------------------- " << endl;
 
     int option = readOption(2);
+    vector<string> airlines;
 
     switch (option) {
         case 1:
-            menu4(manager, sourc, dest);
+            menu4(manager, sourc, dest, airlines);
             break;
 
         case 2:
-            manager.findFlights(sourc, dest);
+            manager.findFlights(sourc, dest, airlines);
             menu0(manager);
 
         default:
@@ -241,7 +242,7 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
     }
 }
 
-void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest) {
+void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest, vector<string> &airlines) {
 
     while (true) {
         cout << " ----------------------------------- " << endl;
@@ -255,7 +256,6 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
 
         int option = readOption(2);
         string input, airline;
-        vector<string> airlines;
         istringstream iss;
 
         switch (option) {
@@ -270,12 +270,12 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
                     }
                     airlines.push_back(airline);
                 }
-                //manager.findFlightsAirlines(sourc, dest, airlines);
-                break;
+                manager.findFlights(sourc, dest, airlines);
+                menu0(manager);
 
             case 2:
                 //manager.findFlightsMin(sourc, dest);
-                break;
+                menu0(manager);
 
             default:
                 cout << "Invalid choice!" << endl;
