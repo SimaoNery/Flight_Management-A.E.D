@@ -16,5 +16,4 @@ add_executable(Flight_Management
         Code/AirTravelManager.h
         Information/airlines.csv
         Information/airports.csv
-        Information/flights.csv
-)
+        Information/flights.csv)

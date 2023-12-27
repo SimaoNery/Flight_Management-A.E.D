@@ -10,12 +10,16 @@
 #include <stack>
 #include <list>
 #include <string>
+#include "Airline.h"
 
 using namespace std;
 
-template <class T> class Edge; // will be flights(the weight of the edge will be the airline responsible for that flight)
-template <class T> class Graph; // big thing
-template <class T> class Vertex; //will be airports
+/// Edge of the graph -> Represents flights(wighted : airlines)
+template <class T> class Edge;
+/// Graph -> Represents the all Flight System
+template <class T> class Graph;
+/// Vertex of the graph -> Represents airports
+template <class T> class Vertex;
 
 
 /****************** Provided structures  ********************/
@@ -32,7 +36,10 @@ class Vertex {
     int distance;
     T prev;
 
-    void addEdge(Vertex<T> *dest, string airline);
+    /// Adds an edge to the graph with the airline as the edge weight
+    /// \param dest
+    /// \param airline Airline responsible for the flight
+    void addEdge(Vertex<T> *dest, Airline airline);
     bool removeEdgeTo(Vertex<T> *d);
 public:
     Vertex(T in);
@@ -60,14 +67,17 @@ public:
 
 template <class T>
 class Edge {
-    Vertex<T> * dest;      // destination vertex(Vertexes are airports)
-    string airline;         // weight of the edge is the *airline* responsible for the flight
+    Vertex<T> * dest;
+    /// Wight of the edge -> Airline responsible for the flight
+    Airline airline;
 public:
-    Edge(Vertex<T> *d, string airline);
+    Edge(Vertex<T> *d, Airline airline);
     Vertex<T> *getDest() const;
     void setDest(Vertex<T> *dest);
-    string getAirline() const;
-    void setAirline(string airline);
+    ///
+    /// \return Airline responsible for the flight
+    Airline getAirline() const;
+    void setAirline(Airline airline);
 
     friend class Graph<T>;
     friend class Vertex<T>;
@@ -87,7 +97,12 @@ public:
     int getNumVertex() const;
     bool addVertex(const T &in);
     bool removeVertex(const T &in);
-    bool addEdge(const T &sourc, const T &dest, string airline);
+    ///
+    /// \param sourc
+    /// \param dest
+    /// \param airline Weight of the edge to be added
+    /// \return
+    bool addEdge(const T &sourc, const T &dest, Airline airline);
     bool removeEdge(const T &sourc, const T &dest);
     vector<Vertex<T> * > getVertexSet() const;
     vector<T> dfs() const;
@@ -101,7 +116,7 @@ template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *d, string airline): dest(d), airline(airline) {}
+Edge<T>::Edge(Vertex<T> *d, Airline airline): dest(d), airline(airline) {}
 
 
 template <class T>
@@ -145,12 +160,12 @@ void Edge<T>::setDest(Vertex<T> *d) {
 }
 
 template<class T>
-string Edge<T>::getAirline() const {
+Airline Edge<T>::getAirline() const {
     return airline;
 }
 
 template<class T>
-void Edge<T>::setAirline(string airline) {
+void Edge<T>::setAirline(Airline airline) {
     Edge::airline = airline;
 }
 
@@ -255,7 +270,7 @@ bool Graph<T>::addVertex(const T &in) {
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 template <class T>
-bool Graph<T>::addEdge(const T &sourc, const T &dest, string airline) {
+bool Graph<T>::addEdge(const T &sourc, const T &dest, Airline airline) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL)
@@ -269,7 +284,7 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, string airline) {
  * with a given destination vertex (d) and edge weight (w).
  */
 template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d, string airline) {
+void Vertex<T>::addEdge(Vertex<T> *d, Airline airline) {
     adj.push_back(Edge<T>(d, airline));
 }
 
