@@ -86,7 +86,14 @@ void Menu::menu0(AirTravelManager& manager) {
 }
 
 void Menu::menu1(AirTravelManager& manager) {
-        cout << "What type of location you want to choose for source? (1,2,3,4)" << endl;
+        cout << " ----------------------------------------------------" << "\n";
+        cout << "|                    Type of Sources                 |" << "\n";
+        cout << " ----------------------------------------------------" << "\n";
+        cout << "| Airport(1) | City(2) | Country(3) | Coordinates(4) |" << "\n";
+        cout << " ----------------------------------------------------" << "\n";
+        cout << "What type of location you want to choose for source? (1, 2, 3, 4)" << endl;
+
+        cin.ignore();  // Clear the input buffer so that readOption don't freak out
         int option = readOption(4);
         string location, lat, longi;
         vector<string> v;
@@ -145,19 +152,13 @@ void Menu::menu1(AirTravelManager& manager) {
 void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
 
     while (true) {
-        cout << "|-----------------------------------|" << endl;
-        cout << "|           Find Flights            |" << endl;
-        cout << "|-----------------------------------|" << endl;
-        cout << "| To:                               |" << endl;
-        cout << "| 1-> Airport                       |" << endl;
-        cout << "| 2-> City                          |" << endl;
-        cout << "| 3-> Country                       |" << endl;
-        cout << "| 4-> Geographical coordinates      |" << endl;
-        cout << "|                                   |" << endl;
-        cout << "| 0-> Leave                         |" << endl;
-        cout << "|-----------------------------------|" << endl;
-
+        cout << " ----------------------------------------------------" << "\n";
+        cout << "|               Type of Destinations                 |" << "\n";
+        cout << " ----------------------------------------------------" << "\n";
+        cout << "| Airport(1) | City(2) | Country(3) | Coordinates(4) |" << "\n";
+        cout << " ----------------------------------------------------" << "\n";
         cout << "What type of location you want to choose for destiny? (1,2,3,4)" << endl;
+
         int option = readOption(4);
         string location, lat, longi;
         vector<string> v;
@@ -217,12 +218,11 @@ void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
 
 void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest) {
 
-    cout << "|-----------------------------------|" << endl;
+    cout << " -----------------------------------" << endl;
     cout << "|  Do you want to apply filters?    |" << endl;
-    cout << "|-----------------------------------|" << endl;
-    cout << "| 1-> Yes                           |" << endl;
-    cout << "| 2-> No                            |" << endl;
-    cout << "|-----------------------------------|" << endl;
+    cout << " -----------------------------------" << endl;
+    cout << "|     Yes(1)       |      No(2)     |" << endl;
+    cout << " ----------------------------------- " << endl;
 
     int option = readOption(2);
 
@@ -233,7 +233,7 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
 
         case 2:
             manager.findFlights(sourc, dest);
-            break;
+            menu0(manager);
 
         default:
             cout << "Invalid choice!" << endl;
@@ -244,13 +244,12 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
 void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest) {
 
     while (true) {
-        cout << "|-----------------------------------|" << endl;
-        cout << "|           Filters                 |" << endl;
-        cout << "|-----------------------------------|" << endl;
+        cout << " ----------------------------------- " << endl;
+        cout << "|              Filters              |" << endl;
+        cout << " ----------------------------------- " << endl;
         cout << "| 1-> Choose Airlines               |" << endl;
         cout << "| 2-> Minimize number of Airlines   |" << endl;
-        cout << "|                                   |" << endl;
-        cout << "|-----------------------------------|" << endl;
+        cout << " ----------------------------------- " << endl;
 
         cout << "What type of filters do you want? (1,2)" << endl;
 

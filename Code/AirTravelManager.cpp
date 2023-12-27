@@ -662,7 +662,7 @@ vector<string> AirTravelManager::geoToAirport(string &lat, string &longi) {
     vector<string> air;
     bool flag = true;
     double shortest;
-    for(const auto& airport : coords){
+    for(const auto& airport : coords){ //Calculates the smallest distance
         if(flag) {
            shortest = haversine(airport.second.first, airport.second.second, stod(lat), stod(longi));
            flag = false;
@@ -672,7 +672,7 @@ vector<string> AirTravelManager::geoToAirport(string &lat, string &longi) {
             }
         }
     }
-    for(const auto& airport : coords){
+    for(const auto& airport : coords){ //Adds to the vector the airports at distance == shortest
         if(haversine(airport.second.first, airport.second.second, stod(lat), stod(longi)) == shortest){
             air.push_back(airport.first);
         }
@@ -680,7 +680,7 @@ vector<string> AirTravelManager::geoToAirport(string &lat, string &longi) {
     return air;
 }
 
-double AirTravelManager::haversine(double lat1, double lon1, double lat2, double lon2) {
+double AirTravelManager::haversine(double lat1, double lon1, double lat2, double lon2) { //Calculates the distance of a point to another
     double R = 6372.8; // Earth radius in kilometers
 
     double dLat = (lat2 - lat1) * M_PI / 180.0;
@@ -746,12 +746,19 @@ void AirTravelManager::findFlights(vector<string> &source, vector<string> &desti
         count = 0;
     }
 
+    cout << "----------------------------------------" << "\n";
+    cout << "The best path for your trip is: " << "\n";
+    cout << "----------------------------------------" << "\n";
+
     for(const auto& path : p){
+        cout << "Start: " << "\n";
         for(const auto& airport : path){
-            cout << airport;
+            cout << airport << "\n";
         }
-        cout << endl;
+        cout << "End!" << "\n" << "\n";
     }
+
+    cout << "----------------------------------------" << "\n";
 }
 
 vector<string> AirTravelManager::bestPath(string &source, string &destination) {

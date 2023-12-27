@@ -14,9 +14,12 @@
 
 using namespace std;
 
-template <class T> class Edge; // will be flights(the weight of the edge will be the airline responsible for that flight)
-template <class T> class Graph; // big thing
-template <class T> class Vertex; //will be airports
+/// Edge of the graph -> Represents flights(wighted : airlines)
+template <class T> class Edge;
+/// Graph -> Represents the all Flight System
+template <class T> class Graph;
+/// Vertex of the graph -> Represents airports
+template <class T> class Vertex;
 
 
 /****************** Provided structures  ********************/
@@ -33,6 +36,9 @@ class Vertex {
     int distance;
     T prev;
 
+    /// Adds an edge to the graph with the airline as the edge weight
+    /// \param dest
+    /// \param airline Airline responsible for the flight
     void addEdge(Vertex<T> *dest, Airline airline);
     bool removeEdgeTo(Vertex<T> *d);
 public:
@@ -61,12 +67,15 @@ public:
 
 template <class T>
 class Edge {
-    Vertex<T> * dest;      // destination vertex(Vertexes are airports)
-    Airline airline;         // weight of the edge is the *airline* responsible for the flight
+    Vertex<T> * dest;
+    /// Wight of the edge -> Airline responsible for the flight
+    Airline airline;
 public:
     Edge(Vertex<T> *d, Airline airline);
     Vertex<T> *getDest() const;
     void setDest(Vertex<T> *dest);
+    ///
+    /// \return Airline responsible for the flight
     Airline getAirline() const;
     void setAirline(Airline airline);
 
@@ -88,6 +97,11 @@ public:
     int getNumVertex() const;
     bool addVertex(const T &in);
     bool removeVertex(const T &in);
+    ///
+    /// \param sourc
+    /// \param dest
+    /// \param airline Weight of the edge to be added
+    /// \return
     bool addEdge(const T &sourc, const T &dest, Airline airline);
     bool removeEdge(const T &sourc, const T &dest);
     vector<Vertex<T> * > getVertexSet() const;
