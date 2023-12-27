@@ -808,6 +808,9 @@ vector<string> AirTravelManager::bestPath(string &source, string &destination) {
             }
         }
     }
+    if(dests.empty()) {
+        return res;
+    }
     int min = bigGraph.findVertex(dests[0])->getDistance();
     for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
         if(bigGraph.findVertex(dests[i])->getDistance() < min) {
