@@ -274,7 +274,7 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
                 menu0(manager);
 
             case 2:
-                //manager.findFlightsMin(sourc, dest);
+                manager.findFlightsMin(sourc, dest);
                 menu0(manager);
 
             default:

@@ -944,3 +944,66 @@ vector<string> AirTravelManager::bestPathFiltered(string &source, string &destin
     return res;
 
 }
+
+void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &destination) {
+    Airport ss;
+    Airport dd;
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source[0] || i.second.first == source[0]){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination[0] || i.second.first == destination[0]){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    Vertex<Airport> *sourceVertex = bigGraph.findVertex(ss); //gets the vertex
+    Vertex<Airport> *destinationVertex = bigGraph.findVertex(dd); //gets the vertex
+
+    priority_queue<pair<int, Vertex<Airport>*>, vector<pair<int, Vertex<Airport>*>>, greater<pair<int, Vertex<Airport>*>>> pq; // Implementation of the Dijkstra's algorithm
+    pq.push({0, sourceVertex});
+
+    map<Vertex<Airport>*, int> dist;
+    map<Vertex<Airport>*, Vertex<Airport>*> prev;
+
+    dist[sourceVertex] = 0;
+
+    while (!pq.empty()) {
+        Vertex<Airport> *current = pq.top().second;
+        pq.pop();
+
+        for (const Edge<Airport> &edge : current->getAdj()) {
+            Vertex<Airport> *neighbor = edge.getDest();
+            int weight = 1;
+
+            if (!dist.count(neighbor) || dist[current] + weight < dist[neighbor]) {
+                dist[neighbor] = dist[current] + weight;
+                prev[neighbor] = current;
+                pq.push({dist[neighbor], neighbor});
+            }
+        }
+    }
+
+    vector<string> path;                               // Method used to reconstruct the path from source to destination
+    Vertex<Airport> *current = destinationVertex;
+
+    while (current != nullptr) {
+        path.push_back(current->getInfo().getCode());
+        current = prev[current];
+    }
+
+    reverse(path.begin(), path.end());
+
+    cout << "----------------------------------------" << "\n";  // Print the minimum path
+    cout << "The best path for your trip is: " << "\n";
+    cout << "----------------------------------------" << "\n";
+
+    cout << "Start: " << "\n";
+    for(const auto& airport : path){
+        cout << airport << " ";
+    }
+    cout << "End!" << "\n" << "\n";
+    cout << "----------------------------------------" << "\n";
+}
