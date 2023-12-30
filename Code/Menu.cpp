@@ -128,6 +128,7 @@ void Menu::menu1(AirTravelManager& manager) {
                     break;
                 }
                 v = manager.countryToAirport(location);
+                for(const auto &i : v) cout << i << endl;
                 menu2(manager, v);
                 break;
 
@@ -193,6 +194,7 @@ void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
                     break;
                 }
                 v = manager.countryToAirport(location);
+                for(const auto &i : v) cout << i << endl;
                 menu3(manager, sourc, v);
                 break;
 

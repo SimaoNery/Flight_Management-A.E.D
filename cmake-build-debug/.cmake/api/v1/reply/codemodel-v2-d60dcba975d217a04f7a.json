@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/david/CLionProjects/Flight_Management/cmake-build-debug",
-		"source" : "/home/david/CLionProjects/Flight_Management"
+		"build" : "/home/afonso/Desktop/Flight_Management/cmake-build-debug",
+		"source" : "/home/afonso/Desktop/Flight_Management"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 5
 	}
 }

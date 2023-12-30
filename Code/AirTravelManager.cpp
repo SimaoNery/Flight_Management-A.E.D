@@ -657,6 +657,7 @@ vector<string> AirTravelManager::countryToAirport(string &country) {
             air.push_back(airport.first);
         }
     }
+    return air;
 }
 vector<string> AirTravelManager::geoToAirport(string &lat, string &longi) {
     vector<string> air;
