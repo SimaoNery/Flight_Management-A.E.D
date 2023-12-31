@@ -56,7 +56,7 @@ public:
     /// \param stops Number of stops that can be done
     void reachable_destinations(string airport, int stops) const;
     /// Prints the maximum trip in the all Travel System and the Source-Destination pairs that are that distant from each other
-    void maximum_trip();
+    void maximum_trip() const;
     /// Prints the top airports with the most flight in descending order
     /// \param k Amount of results chosen
     void top_airports(int k) const;
@@ -104,7 +104,9 @@ public:
     /// Finds the best path between all the combinations of source-destination airports(if it is a country or city) and prints them
     /// \param source Source Airport
     /// \param destination Destination Airport
-    void findFlights(vector<string> &source, vector<string> &destination, vector<string> &air);
+    /// \param air Airlines chosen
+    /// \param picky Airports not to stop
+    void findFlights(vector<string> &source, vector<string> &destination, vector<string> &air, vector<string> &picky);
     ///Finds the best flight between a source and a destination airport using the minimal airline possible
     /// \param source Source Airport
     /// \param destination Destination Airport
@@ -120,6 +122,12 @@ public:
     /// \param airlines Desired Airlines
     /// \return Vector with the bestPath
     vector<string> bestPathFiltered(string &source, string &destination, vector<string> &airlines);
+    /// Finds the best path between a source and a destination airport without stopping in the said airports
+    /// \param source Source Airport
+    /// \param destination Source Destination
+    /// \param airports Airports to avoid
+    /// \return Vector with the best path filtered
+    vector<string> bestPathPicky(string &source, string &destination, vector<string> &airports);
 };
 
 

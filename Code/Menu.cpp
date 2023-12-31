@@ -40,7 +40,7 @@ void Menu::menu0(AirTravelManager& manager) {
         cout << "|   -Airport           |                        | 2-> Airport Flights                |" << endl;
         cout << "|   -City              | ->Minimize Airlines    | 3-> City Flights                   |" << endl;
         cout << "|   -Country           |                        | 4-> Airline Flights                |" << endl;
-        cout << "|   -Coordinates       |                        | 5-> Countries By Airport           |" << endl;
+        cout << "|   -Coordinates       | ->Avoid Airports       | 5-> Countries By Airport           |" << endl;
         cout << "|                      |                        | 6-> Countries By City              |" << endl;
         cout << "| Destination:         |                        | 7-> Airport Direct Destinations    |" << endl;
         cout << "|   -Airport           |                        | 8-> Airport Reachable Destinations |" << endl;
@@ -230,14 +230,16 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
 
     int option = readOption(2);
     vector<string> airlines;
+    vector<string> picky;
 
     switch (option) {
         case 1:
-            menu4(manager, sourc, dest, airlines);
+            menu4(manager, sourc, dest, airlines, picky);
             break;
 
         case 2:
-            manager.findFlights(sourc, dest, airlines);
+            manager.findFlights(sourc, dest, airlines, picky
+            );
             menu0(manager);
 
         default:
@@ -246,20 +248,21 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
     }
 }
 
-void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest, vector<string> &airlines) {
+void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest, vector<string> &airlines, vector<string> &picky) {
 
     while (true) {
         cout << " ----------------------------------- " << endl;
         cout << "|              Filters              |" << endl;
         cout << " ----------------------------------- " << endl;
         cout << "| 1-> Choose Airlines               |" << endl;
-        cout << "| 2-> Minimize number of Airlines   |" << endl;
+        cout << "| 2-> Minimize Number of Airlines   |" << endl;
+        cout << "| 3-> Avoid Airports                |" << endl;
         cout << " ----------------------------------- " << endl;
 
-        cout << "What type of filters do you want? (1,2)" << endl;
+        cout << "What type of filters do you want?" << endl;
 
-        int option = readOption(2);
-        string input, airline;
+        int option = readOption(3);
+        string input, airline, airport;
         istringstream iss;
 
         switch (option) {
@@ -274,12 +277,30 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
                     }
                     airlines.push_back(airline);
                 }
-                manager.findFlights(sourc, dest, airlines);
+                manager.findFlights(sourc, dest, airlines, picky);
                 menu0(manager);
+                break;
 
             case 2:
                 manager.findFlightsMin(sourc, dest);
                 menu0(manager);
+                break;
+            case 3:
+                cout << "Choose the airports you want to avoid (separated by spaces and using only the airports code): " << endl;
+
+                getline(cin, input);
+                iss.str(input);
+
+                while (iss >> airport) {
+                    if (!manager.findAirport(airport)) {
+                        cout << "Airport not found!" << endl;
+                        break;
+                    }
+                   picky.push_back(airport);
+                }
+                manager.findFlights(sourc, dest,airlines ,picky);
+                menu0(manager);
+                break;
 
             default:
                 cout << "Invalid choice!" << endl;
