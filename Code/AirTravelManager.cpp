@@ -83,7 +83,6 @@ void AirTravelManager::readFlights(){
         getline(iss, target, ',');
         getline(iss, airline, '\r');
 
-
         Airport s = Airport(source);
         Airport t = Airport(target);
         Airline a = Airline(airline);
@@ -91,6 +90,7 @@ void AirTravelManager::readFlights(){
         for(const auto& air : airlines){ //will get the information of the airlines and put it has weight to the edges
             if(a.getCode() == air.first){
                 a.setName(air.second);
+                break;
             }
         }
 
@@ -502,7 +502,7 @@ void AirTravelManager::maximum_trip() {
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-//----------Top k Airports-------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//----------Top k Airports_Big-------------------------------------------------------------------------------------------------------------------------------------------------------------//
 struct AirportFlights{ // struct to order by int
     Airport airport;
     int flights;
@@ -539,6 +539,43 @@ void AirTravelManager::top_airports(int k) const{
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+//-------Top K Airports_Small-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+struct AirportFlightsLow{ // struct to order by int
+    Airport airport;
+    int flights;
+
+    bool operator<(const AirportFlightsLow& other) const {
+        if(flights == other.flights){
+            return airport.getCode() < other.airport.getCode();
+        }
+        return flights < other.flights;
+    }
+};
+
+void AirTravelManager::top_airports_low(int k) const{
+    set<AirportFlightsLow> res;
+
+    for(auto vert : bigGraph.getVertexSet()){
+        int count = vert->getAdj().size();
+        AirportFlightsLow airportFlights{vert->getInfo(), count};
+        res.insert(airportFlights);
+    }
+
+    int aux = 0;
+    cout << "----------------------------------------------------------" << "\n";
+    cout << "         This are the top " << k << " airports: " << "\n";
+    cout << "----------------------------------------------------------" << "\n";
+    for(auto value : res){
+        if(aux >= k){
+            cout << "--------------------------------------------------------------" << "\n";
+            return;
+        }
+        cout << value.airport.getCode() << "-" << value.airport.getName() << ": " << value.flights << " flights;" << "\n" << "\n";
+        aux++;
+    }
+}
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
 //--------Articulation Points----------------------------------------------------------------------------------------------------------------------------------------------------------//
 void articulation_points_aux(Vertex<Airport>* vert, Vertex<Airport>* parent, int& children, set<Airport>& res, int& num){
     vert->setVisited(true);
@@ -548,6 +585,7 @@ void articulation_points_aux(Vertex<Airport>* vert, Vertex<Airport>* parent, int
 
     for(const auto& edge : vert->getAdj()){
         auto destination = edge.getDest();
+
         if(!destination->isVisited()){
             children++; //we got one more child
             articulation_points_aux(destination,vert , children, res, num); //need to process that child
@@ -602,6 +640,38 @@ void AirTravelManager::articulation_points() const {
     }
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//--------Strongly Connected Components-----------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+void strongly_connected_components_aux(Vertex<Airport>* vertex){
+    vertex->setVisited(true);
+    for(const auto& edge : vertex->getAdj()){
+        auto destination = edge.getDest();
+        if(!destination->isVisited()){
+            strongly_connected_components_aux(destination);
+        }
+    }
+}
+
+void AirTravelManager::strongly_connected_components() const { //works like a normal dfs
+    int count = 0;
+
+    for(auto vert : bigGraph.getVertexSet()){
+        vert->setVisited(false);
+    }
+
+    for(auto vert : bigGraph.getVertexSet()){
+        if(!vert->isVisited()){
+            strongly_connected_components_aux(vert);
+            count++;
+        }
+    }
+
+    cout << "-------------------------------------------------------------------------------------" << "\n";
+    cout << "There are " << count << " strongly connected components in this flight system!" << "\n";
+    cout << "-------------------------------------------------------------------------------------" << "\n";
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //------------Best Flights------------------------------------------------------------------------------------------------------------------------------------------------------------//
 bool AirTravelManager::findAirport(string &code) {

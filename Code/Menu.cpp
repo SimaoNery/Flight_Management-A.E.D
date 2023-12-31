@@ -46,7 +46,9 @@ void Menu::menu0(AirTravelManager& manager) {
         cout << "|   -Airport           |                        | 8-> Airport Reachable Destinations |" << endl;
         cout << "|   -City              |                        | 9-> Maximum Trip                   |" << endl;
         cout << "|   -Country           |                        | 10-> Top Airports In Flights       |" << endl;
-        cout << "|   -Coordinates       |                        | 11-> Essential Airports            |" << endl;
+        cout << "|   -Coordinates       |                        | 11-> Bottom Airports In Flights    |" << endl;
+        cout << "|                      |                        | 12-> Essential Airports            |" << endl;
+        cout << "|                      |                        | 13-> Strongly Connected Components |" << endl;
         cout << "|                      |                        |                                    |" << endl;
         cout << "|----------------------|------------------------|------------------------------------|" << endl;
         cout << "|                      |                        |                          Q->Leave  |" << endl;
@@ -300,17 +302,20 @@ void Menu::menu_S1(AirTravelManager &manager) {
     cout << " 8-> Airport Reachable Destinations;" << endl;
     cout << " 9-> Maximum Trip;" << endl;
     cout << " 10-> Top Airports In Flights;" << endl;
-    cout << " 11-> Essential Airports;" << endl;
+    cout << " 11-> Bottom Airports In Flights;" << endl;
+    cout << " 12-> Essential Airports;" << endl;
+    cout << " 13-> Strongly Connected Components." << endl;
     cout << "------------------------------------------------" << "\n";
 
     cin.ignore();  // Clear the input buffer so that readOption don't freak out
-    int options = readOption(11);
+    int options = readOption(13);
 
     string airport;
     string city;
     string airline;
     int stops;
     int top;
+    int bottom;
     switch(options) {
         case 1:
             manager.globalStats();
@@ -428,8 +433,23 @@ void Menu::menu_S1(AirTravelManager &manager) {
             manager.top_airports(top);
             break;
 
+
         case 11:
+            cout << "--------------------------------------" << "\n";
+            cout << "Insert the number of results desired:" << "\n";
+            cout << "--------------------------------------" << "\n";
+
+            bottom = readOption(3019);
+
+            manager.top_airports_low(bottom);
+            break;
+
+        case 12:
             manager.articulation_points();
+            break;
+
+        case 13:
+            manager.strongly_connected_components();
             break;
 
         default:

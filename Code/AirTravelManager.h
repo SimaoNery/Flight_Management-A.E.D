@@ -60,8 +60,13 @@ public:
     /// Prints the top airports with the most flight in descending order
     /// \param k Amount of results chosen
     void top_airports(int k) const;
-    /// Prints the number of essential airports in the Flight System (can print a list with all those airports)
+    /// Prints the top airports with the least amount of flights
+    /// \param k Amount of results chosen
+    void top_airports_low(int k) const;
+    /// Prints the number of essential airports in the Flight System (can print a list with all those airports) using a algorithm very similar to Tarjan's Algorithm
     void articulation_points() const;
+    ///Prints the number of strongly connected components in the graph
+    void strongly_connected_components() const;
 
     /// \param code chosen Airport code
     /// \return true if the Airport exists
@@ -96,22 +101,24 @@ public:
     /// \param lon2 Longitude of the second object
     /// \return Distance of 2 points
     static double haversine(double lat1, double lon1, double lat2, double lon2);
-
     /// Finds the best path between all the combinations of source-destination airports(if it is a country or city) and prints them
     /// \param source Source Airport
     /// \param destination Destination Airport
     void findFlights(vector<string> &source, vector<string> &destination, vector<string> &air);
-    ///  NOT DONE YET
-    /// \param source
-    /// \param destination
-    void findFlightsMin(vector<string> &source, vector<string> &destination);
-
-    /// Finds the best path between a source and a destination airport
+    ///Finds the best flight between a source and a destination airport using the minimal airline possible
     /// \param source Source Airport
+    /// \param destination Destination Airport
+    void findFlightsMin(vector<string> &source, vector<string> &destination);
+    /// Finds the best path between a source and a destination airport
+    /// \param source Source Airport()
     /// \param destination Destination Airport
     /// \return Vector with the bestPath (all the best path if more than one)
     vector<string> bestPath(string &source, string &destination);
-
+    /// Finds the best path between a source and a destination airport using only the desired airlines
+    /// \param source Source Airport
+    /// \param destination Destination Airport
+    /// \param airlines Desired Airlines
+    /// \return Vector with the bestPath
     vector<string> bestPathFiltered(string &source, string &destination, vector<string> &airlines);
 };
 
