@@ -1,7 +1,7 @@
 CMakeFiles/Flight_Management.dir/Code/Airline.cpp.o: \
- /home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Airline.cpp \
+ /home/david/CLionProjects/Flight_Management/Code/Airline.cpp \
  /usr/include/stdc-predef.h \
- /home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Airline.h \
+ /home/david/CLionProjects/Flight_Management/Code/Airline.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \

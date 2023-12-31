@@ -8,120 +8,120 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug"/>
+				<Option working_dir="/home/david/CLionProjects/Flight_Management/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Flight_Management">
-				<Option output="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Flight_Management" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug"/>
+				<Option output="/home/david/CLionProjects/Flight_Management/cmake-build-debug/Flight_Management" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/david/CLionProjects/Flight_Management/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/12"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/12"/>
-					<Add directory="/usr/include/c++/12/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/12/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 Flight_Management"/>
-					<CompileFile command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 Flight_Management"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Flight_Management/fast">
-				<Option output="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Flight_Management" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug"/>
+				<Option output="/home/david/CLionProjects/Flight_Management/cmake-build-debug/Flight_Management" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/david/CLionProjects/Flight_Management/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/12"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/12"/>
-					<Add directory="/usr/include/c++/12/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/12/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 Flight_Management/fast"/>
-					<CompileFile command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 Flight_Management/fast"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug"/>
+				<Option working_dir="/home/david/CLionProjects/Flight_Management/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug"/>
+				<Option working_dir="/home/david/CLionProjects/Flight_Management/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j7 -f &quot;/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/david/CLionProjects/Flight_Management/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/AirTravelManager.cpp">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/AirTravelManager.cpp">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/AirTravelManager.h">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/AirTravelManager.h">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Airline.cpp">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/Airline.cpp">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Airline.h">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/Airline.h">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Airport.cpp">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/Airport.cpp">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Airport.h">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/Airport.h">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Graph.h">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/Graph.h">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Menu.cpp">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/Menu.cpp">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/Menu.h">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/Menu.h">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Code/main.cpp">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Code/main.cpp">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Information/airlines.csv">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Information/airlines.csv">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Information/airports.csv">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Information/airports.csv">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/Information/flights.csv">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/Information/flights.csv">
 			<Option target="Flight_Management"/>
 		</Unit>
-		<Unit filename="/home/simaonery/Desktop/2Ano/A.E.D/Projeto2/Flight_Management/CMakeLists.txt">
+		<Unit filename="/home/david/CLionProjects/Flight_Management/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
