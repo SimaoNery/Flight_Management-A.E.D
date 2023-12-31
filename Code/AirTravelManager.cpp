@@ -1114,5 +1114,100 @@ vector<string> AirTravelManager::bestPathPicky(string &source, string &destinati
 }
 
 void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &destination) {
-   // NOT DONE YET
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source[0] || i.second.first == source[0]){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination[0] || i.second.first == destination[0]){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    unordered_map<Vertex<Airport>*, set<string>> airlinesUsed;
+    unordered_map<Vertex<Airport>*, int> minAirlines;
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            set<string> airlines = airlinesUsed[v];
+            airlines.insert(e.getAirline().getCode());
+
+            // If the number of airlines used is less than the current minimum, update the distance and previous airport
+            if (minAirlines.find(w) == minAirlines.end() || airlines.size() < minAirlines[w]) {
+                q.push(w);
+                w->setVisited(true);
+                airlinesUsed[w] = airlines;
+                minAirlines[w] = airlines.size();
+                w->setPrev(v->getInfo());
+                if(w->getInfo().getCode() == destination[0] || w->getInfo().getName() == destination[0]) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return;
+    }
+    int min = minAirlines[bigGraph.findVertex(dests[0])];
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(minAirlines[bigGraph.findVertex(dests[i])] < min) {
+            min = minAirlines[bigGraph.findVertex(dests[i])];
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(minAirlines[bigGraph.findVertex(*it)] > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source[0])){
+            while(v->getInfo().getCode() != source[0]) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source[0]) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    cout << "----------------------------------------" << "\n";
+    cout << "The best path for your trip is: " << "\n";
+    cout << "----------------------------------------" << "\n";
+
+    for(const auto& airport : res){
+        cout << airport << "\n";
+    }
+    cout << "End!" << "\n" << "\n";
+    cout << "----------------------------------------" << "\n";
 }
