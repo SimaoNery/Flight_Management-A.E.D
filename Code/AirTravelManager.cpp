@@ -1115,7 +1115,8 @@ vector<string> AirTravelManager::bestPathPicky(string &source, string &destinati
 }
 
 void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &destination) {
-    vector<string> res, dests;
+    vector<pair<string, set<string>>> res;
+    vector<string> dests;
     string path;
     Airport ss, dd;
 
@@ -1146,11 +1147,11 @@ void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &de
     unordered_map<Vertex<Airport>*, set<string>> airlinesUsed;
     unordered_map<Vertex<Airport>*, int> minAirlines;
 
-    while(!q.empty()) {
+    while (!q.empty()) {
         auto v = q.front();
         q.pop();
 
-        for(auto & e : v->getAdj()) {
+        for (auto &e : v->getAdj()) {
             auto w = e.getDest();
             set<string> airlines = airlinesUsed[v];
             airlines.insert(e.getAirline().getCode());
@@ -1162,7 +1163,7 @@ void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &de
                 airlinesUsed[w] = airlines;
                 minAirlines[w] = airlines.size();
                 w->setPrev(v->getInfo());
-                if(w->getInfo().getCode() == destination[0] || w->getInfo().getName() == destination[0]) {
+                if (w->getInfo().getCode() == destination[0] || w->getInfo().getName() == destination[0]) {
                     dests.push_back(w->getInfo().getCode());
                 }
             }
@@ -1184,32 +1185,38 @@ void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &de
             ++it;
         }
     }
-    for(auto r : dests) {
+    for (auto r : dests) {
         auto v = bigGraph.findVertex(r);
-        if(bigGraph.findVertex(source[0])){
-            while(v->getInfo().getCode() != source[0]) {
+        set<string> airlines = airlinesUsed[v];
+        if (bigGraph.findVertex(source[0])) {
+            while (v->getInfo().getCode() != source[0]) {
                 path = v->getInfo().getCode() + " " + path;
                 v = bigGraph.findVertex(v->getPrev());
             }
-        }
-        else{
-            while(v->getInfo().getName() != source[0]) {
+        } else {
+            while (v->getInfo().getName() != source[0]) {
                 path = v->getInfo().getCode() + " " + path;
                 v = bigGraph.findVertex(v->getPrev());
             }
         }
         path = v->getInfo().getCode() + " " + path;
-        res.push_back(path);
+        res.push_back({path, airlines});
         path = "";
     }
+
     cout << "----------------------------------------" << "\n";
     cout << "The best path for your trip is: " << "\n";
     cout << "----------------------------------------" << "\n";
 
-    for(const auto& airport : res){
-        cout << airport << "\n";
+    for (const auto &result : res) {
+        cout << "Path: " << result.first << "\n";
+        cout << "Airlines: ";
+        for (const auto &airline : result.second) {
+            cout << airline << " ";
+        }
+        cout << "\n\n";
     }
+
     cout << "End!" << "\n" << "\n";
     cout << "----------------------------------------" << "\n";
-
 }
