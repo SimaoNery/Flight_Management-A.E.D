@@ -42,9 +42,9 @@ void Menu::menu0(AirTravelManager& manager) {
         cout << "|   -Country           |                        | 4-> Airline Flights                |" << endl;
         cout << "|   -Coordinates       | ->Avoid Airports       | 5-> Countries By Airport           |" << endl;
         cout << "|                      |                        | 6-> Countries By City              |" << endl;
-        cout << "| Destination:         |                        | 7-> Airport Direct Destinations    |" << endl;
+        cout << "| Destination:         | ->Avoid Cities         | 7-> Airport Direct Destinations    |" << endl;
         cout << "|   -Airport           |                        | 8-> Airport Reachable Destinations |" << endl;
-        cout << "|   -City              |                        | 9-> Maximum Trip                   |" << endl;
+        cout << "|   -City              | ->Avoid Countries      | 9-> Maximum Trip                   |" << endl;
         cout << "|   -Country           |                        | 10-> Top Airports In Flights       |" << endl;
         cout << "|   -Coordinates       |                        | 11-> Bottom Airports In Flights    |" << endl;
         cout << "|                      |                        | 12-> Essential Airports            |" << endl;
@@ -130,7 +130,6 @@ void Menu::menu1(AirTravelManager& manager) {
                     break;
                 }
                 v = manager.countryToAirport(location);
-                for(const auto &i : v) cout << i << endl;
                 menu2(manager, v);
                 break;
 
@@ -196,7 +195,6 @@ void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
                     break;
                 }
                 v = manager.countryToAirport(location);
-                for(const auto &i : v) cout << i << endl;
                 menu3(manager, sourc, v);
                 break;
 
@@ -231,15 +229,16 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
     int option = readOption(2);
     vector<string> airlines;
     vector<string> picky;
+    vector<string> cit;
+    vector<string> countries;
 
     switch (option) {
         case 1:
-            menu4(manager, sourc, dest, airlines, picky);
+            menu4(manager, sourc, dest, airlines, picky, cit, countries);
             break;
 
         case 2:
-            manager.findFlights(sourc, dest, airlines, picky
-            );
+            manager.findFlights(sourc, dest, airlines, picky, cit, countries);
             menu0(manager);
 
         default:
@@ -248,7 +247,7 @@ void Menu::menu3(AirTravelManager& manager, vector<string> &sourc, vector<string
     }
 }
 
-void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest, vector<string> &airlines, vector<string> &picky) {
+void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string> &dest, vector<string> &airlines, vector<string> &picky, vector<string> &cit, vector<string> &countries) {
 
     while (true) {
         cout << " ----------------------------------- " << endl;
@@ -257,12 +256,14 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
         cout << "| 1-> Choose Airlines               |" << endl;
         cout << "| 2-> Minimize Number of Airlines   |" << endl;
         cout << "| 3-> Avoid Airports                |" << endl;
+        cout << "| 4-> Avoid Cities                  |" << endl;
+        cout << "| 5-> Avoid Countries               |" << endl;
         cout << " ----------------------------------- " << endl;
 
         cout << "What type of filters do you want?" << endl;
 
-        int option = readOption(3);
-        string input, airline, airport;
+        int option = readOption(5);
+        string input, airline, airport, city, country;
         istringstream iss;
 
         switch (option) {
@@ -277,7 +278,7 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
                     }
                     airlines.push_back(airline);
                 }
-                manager.findFlights(sourc, dest, airlines, picky);
+                manager.findFlights(sourc, dest, airlines, picky, cit, countries);
                 menu0(manager);
                 break;
 
@@ -298,7 +299,41 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
                     }
                    picky.push_back(airport);
                 }
-                manager.findFlights(sourc, dest,airlines ,picky);
+                manager.findFlights(sourc, dest,airlines ,picky, cit, countries);
+                menu0(manager);
+                break;
+
+            case 4:
+                cout << "Choose the cities you want to avoid (separated by spaces and using only the city name): " << endl;
+
+                getline(cin, input);
+                iss.str(input);
+
+                while (iss >> city) {
+                    if (!manager.findCity(city)) {
+                        cout << "City not found!" << endl;
+                        break;
+                    }
+                    cit.push_back(city);
+                }
+                manager.findFlights(sourc, dest,airlines ,picky, cit, countries);
+                menu0(manager);
+                break;
+
+            case 5:
+                cout << "Choose the countries you want to avoid (separated by spaces and using only the country name): " << endl;
+
+                getline(cin, input);
+                iss.str(input);
+
+                while (iss >> country) {
+                    if (!manager.findCountry(country)) {
+                        cout << "City not found!" << endl;
+                        break;
+                    }
+                    countries.push_back(country);
+                }
+                manager.findFlights(sourc, dest,airlines ,picky, cit, countries);
                 menu0(manager);
                 break;
 

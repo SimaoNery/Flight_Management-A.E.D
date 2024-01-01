@@ -765,12 +765,12 @@ double AirTravelManager::haversine(double lat1, double lon1, double lat2, double
     return R * c;
 }
 
-void AirTravelManager::findFlights(vector<string> &source, vector<string> &destination, vector<string> &air, vector<string> &picky) {
+void AirTravelManager::findFlights(vector<string> &source, vector<string> &destination, vector<string> &air, vector<string> &picky, vector<string> &cit, vector<string> &countries) {
     vector<vector<string>> p;
 
     for(auto& s : source){
         for(auto& d : destination) {
-            if(air.empty() && picky.empty()) {
+            if(air.empty() && picky.empty() && cit.empty() && countries.empty()) {
                 auto path = bestPath(s, d);
                 if(!path.empty()){
                     p.push_back(path);
@@ -783,7 +783,19 @@ void AirTravelManager::findFlights(vector<string> &source, vector<string> &desti
                 }
             }
             if(!picky.empty()){
-                auto path = bestPathPicky(s, d, picky);
+                auto path = bestPathPickyAirports(s, d, picky);
+                if(!path.empty()){
+                    p.push_back(path);
+                }
+            }
+            if(!cit.empty()){
+                auto path = bestPathPickyCities(s, d, cit);
+                if(!path.empty()){
+                    p.push_back(path);
+                }
+            }
+            if(!countries.empty()){
+                auto path = bestPathPickyCountries(s, d, countries);
                 if(!path.empty()){
                     p.push_back(path);
                 }
@@ -1022,7 +1034,7 @@ vector<string> AirTravelManager::bestPathFiltered(string &source, string &destin
 
 }
 
-vector<string> AirTravelManager::bestPathPicky(string &source, string &destination, vector<string> &picky){
+vector<string> AirTravelManager::bestPathPickyAirports(string &source, string &destination, vector<string> &picky){
     vector<string> res, dests;
     string path;
     Airport ss, dd;
@@ -1052,7 +1064,7 @@ vector<string> AirTravelManager::bestPathPicky(string &source, string &destinati
     q.push(s);
     s->setVisited(true);
 
-    for (auto &code : picky) {
+    for (auto &code : picky) { //will make all airports in the list visited so that the algorithm can't go through them while running
         Airport aux = Airport(code);
         auto out = bigGraph.findVertex(aux);
         if (out != nullptr) {
@@ -1219,4 +1231,198 @@ void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &de
 
     cout << "End!" << "\n" << "\n";
     cout << "----------------------------------------" << "\n";
+}
+
+vector<string> AirTravelManager::bestPathPickyCities(string &source, string &destination, vector<string> &cit){
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source || i.second.first == source){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination || i.second.first == destination){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    for (auto &name : cit) { //Will make all airports in the cities visited so that the algorithm can't visit them while running
+        for(auto &air : airports){
+            if(name == air.second.second.first){
+                string code = air.first;
+                Airport aux = Airport(code);
+                auto out = bigGraph.findVertex(aux);
+                if (out != nullptr) {
+                    out->setVisited(true);
+                }
+            }
+        }
+    }
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if(!w->isVisited()) {
+                q.push(w);
+                w->setVisited(true);
+                w->setDistance(v->getDistance() + 1);
+                w->setPrev(v->getInfo());
+                if(w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return res;
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
+}
+
+vector<string> AirTravelManager::bestPathPickyCountries(string &source, string &destination, vector<string> &countries){
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source || i.second.first == source){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination || i.second.first == destination){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    for (auto &name : countries) { //Will make all airports in the country visited so that the algorithm can't visit them while running
+        for(auto &air : airports){
+            if(name == air.second.second.second){
+                string code = air.first;
+                Airport aux = Airport(code);
+                auto out = bigGraph.findVertex(aux);
+                if (out != nullptr) {
+                    out->setVisited(true);
+                }
+            }
+        }
+    }
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if(!w->isVisited()) {
+                q.push(w);
+                w->setVisited(true);
+                w->setDistance(v->getDistance() + 1);
+                w->setPrev(v->getInfo());
+                if(w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return res;
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
 }

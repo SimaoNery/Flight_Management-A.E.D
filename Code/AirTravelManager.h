@@ -129,7 +129,7 @@ public:
     /// \param air Airlines chosen
     /// \param picky Airports not to stop
     /// O(n^3)
-    void findFlights(vector<string> &source, vector<string> &destination, vector<string> &air, vector<string> &picky);
+    void findFlights(vector<string> &source, vector<string> &destination, vector<string> &air, vector<string> &picky, vector<string> &cit, vector<string> &countries);
     ///Finds the best flight between a source and a destination airport using the minimal airline possible
     /// \param source Source Airport
     /// \param destination Destination Airport
@@ -145,7 +145,7 @@ public:
     /// \param source Source Airport
     /// \param destination Destination Airport
     /// \param airlines Desired Airlines
-    /// \return Vector with the bestPath
+    /// \return Vector with the bestPath filtered
     /// O(s + V + E + D)) -> s = size of airports , V = number of airports, E = number of flights, D = number of destinations
     vector<string> bestPathFiltered(string &source, string &destination, vector<string> &airlines);
     /// Finds the best path between a source and a destination airport without stopping in the said airports
@@ -154,7 +154,21 @@ public:
     /// \param airports Airports to avoid
     /// \return Vector with the best path filtered
     /// O(s + V + E + p + D)) -> s = size of airports , V = number of airports, E = number of flights, p = size of pickys, D = number of destinations
-    vector<string> bestPathPicky(string &source, string &destination, vector<string> &airports);
+    vector<string> bestPathPickyAirports(string &source, string &destination, vector<string> &airports);
+    /// Finds the best path between a source and a destination airport without stopping in the said cities
+    /// \param source Source Airport
+    /// \param destination Destination Airport
+    /// \param cities Cities to avoid
+    /// \return Vector with the best path filtered
+    /// COMPLEXITY MISSING
+    vector<string> bestPathPickyCities(string &source, string &destination, vector<string> &cit);
+    /// Finds the best path between a source and a destination airport without stopping in the said countries
+    /// \param source Source Airport
+    /// \param destination Destination Airport
+    /// \param countries Countries to avoid
+    /// \return Vector with the best path filtered
+    /// COMPLEXITY MISSING
+    vector<string> bestPathPickyCountries(string &source, string &destination, vector<string> &countries);
 };
 
 

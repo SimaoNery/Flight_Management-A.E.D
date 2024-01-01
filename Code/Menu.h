@@ -19,7 +19,7 @@ class Menu {
         /// Constructor for the apply filter option menu
         void menu3(AirTravelManager& aux, vector<string> &sourc, vector<string> &dest);
         /// Constructor for the filters options menu
-        void menu4(AirTravelManager& aux, vector<string> &sourc, vector<string> &dest, vector<string> &airlines, vector<string> &picky);
+        void menu4(AirTravelManager& aux, vector<string> &sourc, vector<string> &dest, vector<string> &airlines, vector<string> &picky, vector<string> &cit, vector<string> &countries);
         /// Constructor for statistics options menu
         static void menu_S1(AirTravelManager& aux);
 };

@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/Flight_Management.dir/Code/main.cpp.o CMakeFiles/Flight_Management.dir/Code/Airline.cpp.o CMakeFiles/Flight_Management.dir/Code/Airport.cpp.o CMakeFiles/Flight_Management.dir/Code/Menu.cpp.o CMakeFiles/Flight_Management.dir/Code/AirTravelManager.cpp.o -o Flight_Management 
