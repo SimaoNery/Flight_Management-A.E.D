@@ -5,6 +5,7 @@
 int readOption(int optionsCount) {
     string option;
     while (true) {
+        cout << '\n' << ">> ";
         getline(cin, option);
         cout << endl;
 
@@ -65,6 +66,7 @@ void Menu::menu0(AirTravelManager& manager) {
              << "-> Leave (Q)" << "\n";
         cout << "----------------------" << "\n";
 
+        cout << '\n' << ">> ";
         cin >> origin_choice;
         switch (origin_choice) {
             case 'F':
@@ -95,13 +97,16 @@ void Menu::menu1(AirTravelManager& manager) {
         cout << " ----------------------------------------------------" << "\n";
         cout << "What type of location you want to choose for source? (1, 2, 3, 4)" << endl;
 
+
+
         cin.ignore();  // Clear the input buffer so that readOption don't freak out
         int option = readOption(4);
         string location, lat, longi;
         vector<string> v;
         switch (option) {
             case 1:
-                cout << "Airport name or code: ";
+                cout << "Airport name or code: \n";
+                cout << '\n' << ">> ";
                 getline(cin, location);
                 if (!manager.findAirport(location)) {
                     cout << "Airport not found!" << endl;
@@ -112,7 +117,8 @@ void Menu::menu1(AirTravelManager& manager) {
                 break;
 
             case 2:
-                cout << "City name: ";
+                cout << "City name: \n";
+                cout << '\n' << ">> ";
                 getline(cin, location);
                 if (!manager.findCity(location)) {
                     cout << "City not found!" << endl;
@@ -123,7 +129,8 @@ void Menu::menu1(AirTravelManager& manager) {
                 break;
 
             case 3:
-                cout << "Country name: ";
+                cout << "Country name: \n";
+                cout << '\n' << ">> ";
                 getline(cin, location);
                 if (!manager.findCountry(location)) {
                     cout << "Country not found!" << endl;
@@ -134,9 +141,11 @@ void Menu::menu1(AirTravelManager& manager) {
                 break;
 
             case 4:
-                cout << "Latitude: ";
+                cout << "Latitude: \n";
+                cout << '\n' << ">> ";
                 cin >> lat;
-                cout << "Longitude: ";
+                cout << "Longitude: \n";
+                cout << '\n' << ">> ";
                 cin >> longi;
                 v = manager.geoToAirport(lat, longi);
                 menu2(manager, v);
@@ -166,7 +175,8 @@ void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
         vector<string> v;
         switch (option) {
             case 1:
-                cout << "Airport name or code: ";
+                cout << "Airport name or code: \n";
+                cout << '\n' << ">> ";
                 getline(cin, location);
                 if (!manager.findAirport(location)) {
                     cout << "Airport not found!" << endl;
@@ -177,7 +187,8 @@ void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
                 break;
 
             case 2:
-                cout << "City name: ";
+                cout << "City name: \n";
+                cout << '\n' << ">> ";
                 getline(cin, location);
                 if (!manager.findCity(location)) {
                     cout << "City not found!" << endl;
@@ -188,7 +199,8 @@ void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
                 break;
 
             case 3:
-                cout << "Country name: ";
+                cout << "Country name: \n";
+                cout << '\n' << ">> ";
                 getline(cin, location);
                 if (!manager.findCountry(location)) {
                     cout << "Country not found!" << endl;
@@ -199,9 +211,11 @@ void Menu::menu2(AirTravelManager& manager, vector<string> &sourc) {
                 break;
 
             case 4:
-                cout << "Latitude: ";
+                cout << "Latitude: \n";
+                cout << '\n' << ">> ";
                 cin >> lat;
-                cout << "Longitude: ";
+                cout << "Longitude: \n";
+                cout << '\n' << ">> ";
                 cin >> longi;
                 v = manager.geoToAirport(lat, longi);
                 menu3(manager, sourc, v);
@@ -269,6 +283,7 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
         switch (option) {
             case 1:
                 cout << "Choose the airlines you want to use (separated by spaces and using only the airlines code): " << endl;
+                cout << '\n' << ">> ";
                 getline(cin, input);
                 iss.str(input);
                 while (iss >> airline) {
@@ -288,7 +303,7 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
                 break;
             case 3:
                 cout << "Choose the airports you want to avoid (separated by spaces and using only the airports code): " << endl;
-
+                cout << '\n' << ">> ";
                 getline(cin, input);
                 iss.str(input);
 
@@ -305,7 +320,7 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
 
             case 4:
                 cout << "Choose the cities you want to avoid (separated by spaces and using only the city name): " << endl;
-
+                cout << '\n' << ">> ";
                 getline(cin, input);
                 iss.str(input);
 
@@ -322,7 +337,7 @@ void Menu::menu4(AirTravelManager& manager, vector<string> &sourc, vector<string
 
             case 5:
                 cout << "Choose the countries you want to avoid (separated by spaces and using only the country name): " << endl;
-
+                cout << '\n' << ">> ";
                 getline(cin, input);
                 iss.str(input);
 
@@ -381,6 +396,8 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "-------------------------" << "\n";
             cout << "Insert an airport code:" << "\n";
             cout << "-------------------------" << "\n";
+
+            cout << '\n' << ">> ";
             cin >> airport;
 
             if(!manager.findAirport(airport)){
@@ -394,6 +411,8 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "-------------------------" << "\n";
             cout << "Insert a city name:" << "\n";
             cout << "-------------------------" << "\n";
+
+            cout << '\n' << ">> ";
             cin >> city;
 
             if(!manager.findCity(city)){
@@ -407,6 +426,8 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "-------------------------" << "\n";
             cout << "Insert a airline code:" << "\n";
             cout << "-------------------------" << "\n";
+
+            cout << '\n' << ">> ";
             cin >> airline;
 
             if(!manager.findAirline(airline)){
@@ -420,6 +441,8 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "-------------------------" << "\n";
             cout << "Insert an airport code:" << "\n";
             cout << "-------------------------" << "\n";
+
+            cout << '\n' << ">> ";
             cin >> airport;
 
             if(!manager.findAirport(airport)){
@@ -433,6 +456,8 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "-------------------------" << "\n";
             cout << "Insert a city name:" << "\n";
             cout << "-------------------------" << "\n";
+
+            cout << '\n' << ">> ";
             cin >> city;
 
             if(!manager.findCity(city)){
@@ -446,6 +471,8 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "-------------------------" << "\n";
             cout << "Insert an airport code:" << "\n";
             cout << "-------------------------" << "\n";
+
+            cout << '\n' << ">> ";
             cin >> airport;
 
             if(!manager.findAirport(airport)){
@@ -459,6 +486,8 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "-------------------------" << "\n";
             cout << "Insert an airport code:" << "\n";
             cout << "-------------------------" << "\n";
+
+            cout << '\n' << ">> ";
             cin >> airport;
 
             if(!manager.findAirport(airport)){
@@ -469,6 +498,7 @@ void Menu::menu_S1(AirTravelManager &manager) {
             cout << "--------------------------------------" << "\n";
             cout << "Insert the number of stops desired:" << "\n";
             cout << "--------------------------------------" << "\n";
+
             cin.ignore();
             stops = readOption(99);
 
