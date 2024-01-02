@@ -6,6 +6,7 @@
 #include <fstream>
 #include <unordered_set>
 #include <unordered_map>
+#include <climits>
 #include "AirTravelManager.h"
 
 //------Read Data---------------------------------------------------------------------------------------------------------------//
@@ -34,7 +35,8 @@ void AirTravelManager::readAirports(){
 
         Airport airport(code, name, city, country, latitude, longitude);
 
-        airports.insert(airport.getCode()); //adds an airport to the set with all airports
+        airports.insert(make_pair(airport.getCode(), make_pair(airport.getName(), make_pair(airport.getCity(), airport.getCountry())))); //airport information (code | name | city | country)
+        coords.insert(make_pair(airport.getCode(), make_pair(airport.getLatitude(), airport.getLongitude())));
         cities.insert(city);
 
         bigGraph.addVertex(airport); //adds the airport as a vertex of the graph
@@ -61,7 +63,7 @@ void AirTravelManager::readAirlines(){
 
         Airline airline(code, name, callSign, country);
 
-        airlines.insert(airline.getCode());
+        airlines.insert(make_pair(airline.getCode(), airline.getName()));
     }
 }
 
@@ -82,14 +84,14 @@ void AirTravelManager::readFlights(){
         getline(iss, target, ',');
         getline(iss, airline, '\r');
 
-
         Airport s = Airport(source);
         Airport t = Airport(target);
         Airline a = Airline(airline);
 
-        for(const auto& air : airlines){ //will get the full information of the airlines and put it has weight to the edges
-            if(a.getCode() == air){
-                a = air;
+        for(const auto& air : airlines){ //will get the information of the airlines and put it has weight to the edges
+            if(a.getCode() == air.first){
+                a.setName(air.second);
+                break;
             }
         }
 
@@ -126,6 +128,9 @@ void AirTravelManager::airportInfo(const string& airport) const {
 
             cout << "-------------------------------------------------------------------------" << "\n";
             cout << "There are a total of " << count << " flights departing from this airport!" << "\n";
+            if(choice == '0'){
+                cout << "-------------------------------------------------------------------------" << "\n";
+            }
 
             for (const auto& edge : vert->getAdj()) { //get the information about each airline and the destinations of each flight
                 Airline aux = edge.getAirline();
@@ -139,7 +144,16 @@ void AirTravelManager::airportInfo(const string& airport) const {
         }
     }
 
-    cout << "\n" << "This flights are made by " << airlines_count.size() << " different airlines!" << "\n";
+    cout << "\n";
+    if(choice == '0'){
+        cout << "------------------------------------------------------------------------------" << "\n";
+    }
+
+    cout << "This flights are made by " << airlines_count.size() << " different airlines!" << "\n";
+
+    if(choice == '0'){
+        cout << "------------------------------------------------------------------------------" << "\n";
+    }
     if(choice == '0'){
         for(const auto& valor : airlines_count){
             cout << valor.first << "-" << valor.second << ";" << "\n";
@@ -204,7 +218,7 @@ void AirTravelManager::cityFlights(const string& city) {
             airportCount++;
 
             if(choice == '0'){
-                cout << "------------------------------------------------------------------------" << "\n";
+                cout << "------------------------------------------------------------------------------------" << "\n";
                 cout << vert->getInfo().getName() << " Airport Flights:" << endl << "\n";
             }
 
@@ -220,22 +234,21 @@ void AirTravelManager::cityFlights(const string& city) {
                 for (const auto &i: flights) { //lists all the destination of flights in an airport
                     cout << "->Destination: " << i << ";" << "\n";
                 }
-                cout << "------------------------------------------------------------------------------------";
+                cout << "------------------------------------------------------------------------------------" << "\n";
             }
         }
     }
-    if(choice == '1'){
-        cout << "------------------------------------------------------------------------------------";
-    }
+    cout << "------------------------------------------------------------------------------------" << "\n";
+
     if(airportCount == 1){
-        cout << '\n' << city << " has " << airportCount << " airport, having a total of "
+        cout << city << " has " << airportCount << " airport, having a total of "
              << flightsCount << " flights, made by " << airlines_count.size() << " distinct airlines." << endl;
-        cout << "------------------------------------------------------------------------------------";
+        cout << "------------------------------------------------------------------------------------" << "\n";
         return;
     }
-    cout << '\n' << city << " has " << airportCount << " airports, having a total of "
+    cout << city << " has " << airportCount << " airports, having a total of "
          << flightsCount << " flights, made by " << airlines_count.size() << " distinct airlines." << endl;
-    cout << "------------------------------------------------------------------------------------";
+    cout << "------------------------------------------------------------------------------------" << "\n";
 }
 //----------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -305,7 +318,7 @@ void AirTravelManager::citiesCountries(const string& city) const {
 void AirTravelManager::airportDestinations(const string& airport) const {
     unordered_set<string> cities_count;
     unordered_set<string> countries_count;
-    unordered_set<string> airports_count;
+    unordered_map<string, string> airports_count;
 
     unsigned count = 0;
     Airport aux;
@@ -316,9 +329,9 @@ void AirTravelManager::airportDestinations(const string& airport) const {
     for (auto vert : bigGraph.getVertexSet()) { //finds the desired airport
         if(vert->getInfo().getCode() == airport){
             aux = vert->getInfo();
-            for (const auto& edge : vert->getAdj()) { //gets the information needed into unordered_sets
+            for (const auto& edge : vert->getAdj()) { //gets the information needed into unordered_sets and unordered_maps
                 Vertex<Airport>* destAirport = edge.getDest();
-                airports_count.insert(destAirport->getInfo().getCode());
+                airports_count.insert(make_pair(destAirport->getInfo().getCode(), destAirport->getInfo().getName()));
                 countries_count.insert(destAirport->getInfo().getCountry());
                 cities_count.insert(destAirport->getInfo().getCity());
             }
@@ -349,7 +362,7 @@ void AirTravelManager::airportDestinations(const string& airport) const {
         cout << "Airports: " <<  "\n";
         cout << "----------------------------" << "\n";
         for(const auto& valor : airports_count){
-            cout << "->" << valor << "\n";
+            cout << "->" << valor.first << "-" << valor.second << "\n";
         }
         cout << "------------------------------------------------------------------------------------";
     }
@@ -359,13 +372,13 @@ void AirTravelManager::airportDestinations(const string& airport) const {
     cout << "------------------------------------------------------------------------------------" << "\n";
     cout << airports_count.size() << " different airports" << "\n" << cities_count.size() <<
          " varied cities " << "\n" << countries_count.size() << " distinct countries\n";
-    cout << "------------------------------------------------------------------------------------";
+    cout << "------------------------------------------------------------------------------------" << "\n";
 }
 
 //------------------------------------------------------------------------------------------------------------------------------//
 
 //----------------------------------Reachable Airports------------------------------------------------------------------------------------------------------------------------------------//
-void AirTravelManager::reachable_destinations(string airport, int stops) { //basically a bfs
+void AirTravelManager::reachable_destinations(string airport, int stops) const { //basically a bfs
     int stops_cout = stops;
 
     unordered_map<string, pair<string, string>> airportCity;
@@ -406,19 +419,24 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
         stops--;
     }
     char reachable_choice;
-    cout << "Do you want to receive a list of the information (0) or values (1)?";
+    cout << "Do you want to receive a list of the information (0) or values (1)?" << "\n";
     cin >> reachable_choice;
     if(reachable_choice == '1'){
-        cout << "------------------------------------------------------------" << "\n";
+        cout << "-------------------------------------------------------------------------------------" << "\n";
         cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops_cout << " stops, it's possible to reach: " << "\n" << "\n";
         cout << airportCity.size() << " airports  |   ";
         cout << cities.size() << " cities  |  ";
         cout << countries.size() <<" countries" << "\n";
-        cout << "------------------------------------------------------------" << "\n";
+        cout << "-------------------------------------------------------------------------------------" << "\n";
     }
     else if(reachable_choice == '0'){
         cout << "------------------------------------------------------------" << "\n";
-        cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops << " stops, it's possible to reach: " << "\n" << "\n";
+        cout << "From airport " << airport << "-" << source->getInfo().getName() << ", with " << stops_cout << " stops, it's possible to reach: " << "\n";
+        cout << airportCity.size() << " airports  |   ";
+        cout << cities.size() << " cities  |  ";
+        cout << countries.size() <<" countries" << "\n";
+        cout << "-----------------------------------------------------------" << "\n" << "\n";
+
         for(const auto& pair : airportCity){
             cout << "->" << pair.first << " in " << pair.second.first << ", " << pair.second.second << ";" << "\n";
         }
@@ -431,7 +449,7 @@ void AirTravelManager::reachable_destinations(string airport, int stops) { //bas
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //----------------------Maximum Trip(s)--------------------------------------------------------------------------------------------------------------------------------------------------//
-void AirTravelManager::maximum_trip() {
+void AirTravelManager::maximum_trip() const{
     int diameter = 0;
     vector<pair<string, string>> res;
 
@@ -477,7 +495,7 @@ void AirTravelManager::maximum_trip() {
     }
 
     cout << "-----------------------------------------------" << "\n";
-    cout << "The maximum trip has: " << diameter << " stops! \n";
+    cout << "The maximum trip has: " << diameter << " stops! \n" << "\n";
     for(const auto& item : res){
         cout << "Start: " << item.first << " | End: " << item.second << "\n";
     }
@@ -485,7 +503,7 @@ void AirTravelManager::maximum_trip() {
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-//----------Top k Airports-------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//----------Top k Airports_Big-------------------------------------------------------------------------------------------------------------------------------------------------------------//
 struct AirportFlights{ // struct to order by int
     Airport airport;
     int flights;
@@ -508,15 +526,52 @@ void AirTravelManager::top_airports(int k) const{
     }
 
     int aux = 0;
-    cout << "--------------------------------------------------------------" << "\n";
+    cout << "----------------------------------------------------------" << "\n";
     cout << "         This are the top " << k << " airports: " << "\n";
-    cout << "--------------------------------------------------------------" << "\n";
+    cout << "----------------------------------------------------------" << "\n";
     for(auto value : res){
-        if(aux > k){
+        if(aux >= k){
             cout << "--------------------------------------------------------------" << "\n";
             return;
         }
-        cout << value.airport.getCode() << "-" << value.airport.getName() << ": " << value.flights << " flights;" << "\n";
+        cout << value.airport.getCode() << "-" << value.airport.getName() << ": " << value.flights << " flights;" << "\n" << "\n";
+        aux++;
+    }
+}
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//-------Top K Airports_Small-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+struct AirportFlightsLow{ // struct to order by int
+    Airport airport;
+    int flights;
+
+    bool operator<(const AirportFlightsLow& other) const {
+        if(flights == other.flights){
+            return airport.getCode() < other.airport.getCode();
+        }
+        return flights < other.flights;
+    }
+};
+
+void AirTravelManager::top_airports_low(int k) const{
+    set<AirportFlightsLow> res;
+
+    for(auto vert : bigGraph.getVertexSet()){
+        int count = vert->getAdj().size();
+        AirportFlightsLow airportFlights{vert->getInfo(), count};
+        res.insert(airportFlights);
+    }
+
+    int aux = 0;
+    cout << "----------------------------------------------------------" << "\n";
+    cout << "         This are the top " << k << " airports: " << "\n";
+    cout << "----------------------------------------------------------" << "\n";
+    for(auto value : res){
+        if(aux >= k){
+            cout << "--------------------------------------------------------------" << "\n";
+            return;
+        }
+        cout << value.airport.getCode() << "-" << value.airport.getName() << ": " << value.flights << " flights;" << "\n" << "\n";
         aux++;
     }
 }
@@ -531,6 +586,7 @@ void articulation_points_aux(Vertex<Airport>* vert, Vertex<Airport>* parent, int
 
     for(const auto& edge : vert->getAdj()){
         auto destination = edge.getDest();
+
         if(!destination->isVisited()){
             children++; //we got one more child
             articulation_points_aux(destination,vert , children, res, num); //need to process that child
@@ -569,12 +625,804 @@ void AirTravelManager::articulation_points() const {
         }
     }
 
+
+    char choice;
+    cout << "Do you want to receive a list of the information (0) or just the values (1)?" << "\n";
+    cin >> choice;
+
     cout << "------------------------------------------------------------------" << "\n";
-    cout << "There are " << res.size() << " essential airports in the network: " << "\n";
+    cout << "There are " << res.size() << " essential airports in the network " << "\n";
     cout << "------------------------------------------------------------------" << "\n";
-    for(auto valor : res){
-        cout << valor.getCode() << "-" << valor.getName() << "\n";
+    if(choice == '0'){
+        for(auto valor : res){
+            cout << valor.getCode() << "-" << valor.getName() << "\n";
+        }
+        cout << "------------------------------------------------------------------";
     }
-    cout << "------------------------------------------------------------------";
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//--------Strongly Connected Components-----------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+void strongly_connected_components_aux(Vertex<Airport>* vertex){
+    vertex->setVisited(true);
+    for(const auto& edge : vertex->getAdj()){
+        auto destination = edge.getDest();
+        if(!destination->isVisited()){
+            strongly_connected_components_aux(destination);
+        }
+    }
+}
+
+void AirTravelManager::strongly_connected_components() const { //works like a normal dfs
+    int count = 0;
+
+    for(auto vert : bigGraph.getVertexSet()){
+        vert->setVisited(false);
+    }
+
+    for(auto vert : bigGraph.getVertexSet()){
+        if(!vert->isVisited()){
+            strongly_connected_components_aux(vert);
+            count++;
+        }
+    }
+
+    cout << "-------------------------------------------------------------------------------------" << "\n";
+    cout << "There are " << count << " strongly connected components in this flight system!" << "\n";
+    cout << "-------------------------------------------------------------------------------------" << "\n";
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+//------------Best Flights------------------------------------------------------------------------------------------------------------------------------------------------------------//
+bool AirTravelManager::findAirport(string &code) {
+    for(const auto& airport : airports){
+        if(airport.first == code || airport.second.first == code){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findCity(string &city) {
+    for(const auto& airport : airports){
+        if(airport.second.second.first == city){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findCountry(string &country) {
+    for(const auto& airport : airports){
+        if(airport.second.second.second == country){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool AirTravelManager::findAirline(string &code) {
+    for(const auto& airline : airlines){
+        if(airline.first == code || airline.second == code){
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<string> AirTravelManager::cityToAirport(string &city) {
+    vector<string> air;
+    for(const auto& airport : airports){
+        if(airport.second.second.first == city){
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+
+vector<string> AirTravelManager::countryToAirport(string &country) {
+    vector<string> air;
+    for(const auto& airport : airports) {
+        if (airport.second.second.second == country) {
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+vector<string> AirTravelManager::geoToAirport(string &lat, string &longi) {
+    vector<string> air;
+    bool flag = true;
+    double shortest;
+    for(const auto& airport : coords){ //Calculates the smallest distance
+        if(flag) {
+           shortest = haversine(airport.second.first, airport.second.second, stod(lat), stod(longi));
+           flag = false;
+        }else {
+            if(haversine(airport.second.first, airport.second.second, stod(lat), stod(longi)) < shortest) {
+                shortest = haversine(airport.second.first, airport.second.second, stod(lat), stod(longi));
+            }
+        }
+    }
+    for(const auto& airport : coords){ //Adds to the vector the airports at distance == shortest
+        if(haversine(airport.second.first, airport.second.second, stod(lat), stod(longi)) == shortest){
+            air.push_back(airport.first);
+        }
+    }
+    return air;
+}
+
+double AirTravelManager::haversine(double lat1, double lon1, double lat2, double lon2) { //Calculates the distance of a point to another
+    double R = 6372.8; // Earth radius in kilometers
+
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLon = (lon2 - lon1) * M_PI / 180.0;
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    double a = pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
+    double c = 2 * asin(sqrt(a));
+    return R * c;
+}
+
+void AirTravelManager::findFlights(vector<string> &source, vector<string> &destination, vector<string> &air, vector<string> &picky, vector<string> &cit, vector<string> &countries) {
+    vector<vector<string>> p;
+
+    for(auto& s : source){
+        for(auto& d : destination) {
+            if(air.empty() && picky.empty() && cit.empty() && countries.empty()) {
+                auto path = bestPath(s, d);
+                if(!path.empty()){
+                    p.push_back(path);
+                }
+            }
+            if(!air.empty()){
+                auto path = bestPathFiltered(s, d, air);
+                if(!path.empty()){
+                    p.push_back(path);
+                }
+            }
+            if(!picky.empty()){
+                auto path = bestPathPickyAirports(s, d, picky);
+                if(!path.empty()){
+                    p.push_back(path);
+                }
+            }
+            if(!cit.empty()){
+                auto path = bestPathPickyCities(s, d, cit);
+                if(!path.empty()){
+                    p.push_back(path);
+                }
+            }
+            if(!countries.empty()){
+                auto path = bestPathPickyCountries(s, d, countries);
+                if(!path.empty()){
+                    p.push_back(path);
+                }
+            }
+        }
+    }
+    if(p.empty()){
+        cout << "-------------------------------------------------" << "\n";
+        cout << "There are no flights between those locations!" << "\n";
+        cout << "-------------------------------------------------" << "\n";
+        return;
+    }
+
+    bool flag = true;
+    int min, count = 0;
+    for(auto& path : p){
+        if(flag){
+            for(char c : path[0]){
+                if(c == ' '){
+                    count++;
+                }
+            }
+            min = count;
+            count = 0;
+            flag = false;
+        }else{
+            for(char c : path[0]){
+                if(c == ' '){
+                    count++;
+                }
+            }
+            if(count < min){
+                min = count;
+                count = 0;
+            }
+            count = 0;
+        }
+    }
+
+    for(auto it = p.begin(); it != p.end(); ) {
+        for(char c : (*it)[0]){
+            if(c == ' '){
+                count++;
+            }
+        }
+        if(count > min){
+            it = p.erase(it);
+        }else{
+            ++it;
+        }
+        count = 0;
+    }
+
+    cout << "----------------------------------------" << "\n";
+    cout << "The best path for your trip is: " << "\n";
+    cout << "----------------------------------------" << "\n";
+
+    for(const auto& path : p){
+        cout << "Start: " << "\n";
+        for(const auto& airport : path){
+            cout << airport << "\n";
+        }
+        cout << "End!" << "\n";
+    }
+    cout << "----------------------------------------" << "\n" << "\n";
+}
+
+vector<string> AirTravelManager::bestPath(string &source, string &destination) {
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source || i.second.first == source){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination || i.second.first == destination){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if(!w->isVisited()) {
+                q.push(w);
+                w->setVisited(true);
+                w->setDistance(v->getDistance() + 1);
+                w->setPrev(v->getInfo());
+                if(w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return res;
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
+}
+
+vector<string> AirTravelManager::bestPathFiltered(string &source, string &destination, vector<string> &airlines) {
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source || i.second.first == source){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination || i.second.first == destination){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            if(find(airlines.begin(), airlines.end(),e.getAirline().getCode()) != airlines.end()) {
+                auto w = e.getDest();
+                if (!w->isVisited()) {
+                    q.push(w);
+                    w->setVisited(true);
+                    w->setDistance(v->getDistance() + 1);
+                    w->setPrev(v->getInfo());
+                    if (w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
+                        dests.push_back(w->getInfo().getCode());
+                    }
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return res;
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
+
+}
+
+vector<string> AirTravelManager::bestPathPickyAirports(string &source, string &destination, vector<string> &picky){
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source || i.second.first == source){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination || i.second.first == destination){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    for (auto &code : picky) { //will make all airports in the list visited so that the algorithm can't go through them while running
+        Airport aux = Airport(code);
+        auto out = bigGraph.findVertex(aux);
+        if (out != nullptr) {
+            out->setVisited(true);
+        }
+    }
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if(!w->isVisited()) {
+                q.push(w);
+                w->setVisited(true);
+                w->setDistance(v->getDistance() + 1);
+                w->setPrev(v->getInfo());
+                if(w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return res;
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
+}
+
+void AirTravelManager::findFlightsMin(vector<string> &source, vector<string> &destination) {
+    vector<pair<string, set<string>>> res;
+    vector<string> dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source[0] || i.second.first == source[0]){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination[0] || i.second.first == destination[0]){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    unordered_map<Vertex<Airport>*, set<string>> airlinesUsed;
+    unordered_map<Vertex<Airport>*, int> minAirlines;
+
+    while (!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for (auto &e : v->getAdj()) {
+            auto w = e.getDest();
+            set<string> airlines = airlinesUsed[v];
+            airlines.insert(e.getAirline().getCode());
+
+            // If the number of airlines used is less than the current minimum, update the distance and previous airport
+            if (minAirlines.find(w) == minAirlines.end() || airlines.size() < minAirlines[w]) {
+                q.push(w);
+                w->setVisited(true);
+                airlinesUsed[w] = airlines;
+                minAirlines[w] = airlines.size();
+                w->setPrev(v->getInfo());
+                if (w->getInfo().getCode() == destination[0] || w->getInfo().getName() == destination[0]) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return;
+    }
+    int min = minAirlines[bigGraph.findVertex(dests[0])];
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(minAirlines[bigGraph.findVertex(dests[i])] < min) {
+            min = minAirlines[bigGraph.findVertex(dests[i])];
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(minAirlines[bigGraph.findVertex(*it)] > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for (auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        set<string> airlines = airlinesUsed[v];
+        if (bigGraph.findVertex(source[0])) {
+            while (v->getInfo().getCode() != source[0]) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        } else {
+            while (v->getInfo().getName() != source[0]) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back({path, airlines});
+        path = "";
+    }
+
+    cout << "----------------------------------------" << "\n";
+    cout << "The best path for your trip is: " << "\n";
+    cout << "----------------------------------------" << "\n";
+
+    for (const auto &result : res) {
+        cout << "Path: " << result.first << "\n";
+        cout << "Airlines: ";
+        for (const auto &airline : result.second) {
+            cout << airline << " ";
+        }
+        cout << "\n\n";
+    }
+
+    cout << "End!" << "\n" << "\n";
+    cout << "----------------------------------------" << "\n";
+}
+
+vector<string> AirTravelManager::bestPathPickyCities(string &source, string &destination, vector<string> &cit){
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source || i.second.first == source){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination || i.second.first == destination){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    for (auto &name : cit) { //Will make all airports in the cities visited so that the algorithm can't visit them while running
+        for(auto &air : airports){
+            if(name == air.second.second.first){
+                string code = air.first;
+                Airport aux = Airport(code);
+                auto out = bigGraph.findVertex(aux);
+                if (out != nullptr) {
+                    out->setVisited(true);
+                }
+            }
+        }
+    }
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if(!w->isVisited()) {
+                q.push(w);
+                w->setVisited(true);
+                w->setDistance(v->getDistance() + 1);
+                w->setPrev(v->getInfo());
+                if(w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return res;
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
+}
+
+vector<string> AirTravelManager::bestPathPickyCountries(string &source, string &destination, vector<string> &countries){
+    vector<string> res, dests;
+    string path;
+    Airport ss, dd;
+
+    for(const auto& i: airports){ //creates an Airport(source and destination)
+        if(i.first == source || i.second.first == source){
+            string code = i.first;
+            ss = Airport(code);
+        }
+        if(i.first == destination || i.second.first == destination){
+            string code = i.first;
+            dd = Airport(code);
+        }
+    }
+
+    auto s = bigGraph.findVertex(ss); //gets the vertex
+    auto d = bigGraph.findVertex(dd); //gets the vertex
+    if(s == nullptr || d == nullptr) {
+        return res;
+    }
+
+    queue<Vertex<Airport> *> q; //basically a bfs
+    for(auto v : bigGraph.getVertexSet()) {
+        v->setVisited(false);
+        v->setDistance(0);
+    }
+    q.push(s);
+    s->setVisited(true);
+
+    for (auto &name : countries) { //Will make all airports in the country visited so that the algorithm can't visit them while running
+        for(auto &air : airports){
+            if(name == air.second.second.second){
+                string code = air.first;
+                Airport aux = Airport(code);
+                auto out = bigGraph.findVertex(aux);
+                if (out != nullptr) {
+                    out->setVisited(true);
+                }
+            }
+        }
+    }
+
+    while(!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto & e : v->getAdj()) {
+            auto w = e.getDest();
+            if(!w->isVisited()) {
+                q.push(w);
+                w->setVisited(true);
+                w->setDistance(v->getDistance() + 1);
+                w->setPrev(v->getInfo());
+                if(w->getInfo().getCode() == destination || w->getInfo().getName() == destination) {
+                    dests.push_back(w->getInfo().getCode());
+                }
+            }
+        }
+    }
+    if(dests.empty()){
+        return res;
+    }
+    int min = bigGraph.findVertex(dests[0])->getDistance();
+    for(int i=1; i<dests.size(); i++) { //of all the values in dest gets the one with the smallest path
+        if(bigGraph.findVertex(dests[i])->getDistance() < min) {
+            min = bigGraph.findVertex(dests[i])->getDistance();
+        }
+    }
+    for(auto it = dests.begin(); it != dests.end(); ) { //eliminates the ones with a bigger path
+        if(bigGraph.findVertex(*it)->getDistance() > min) {
+            it = dests.erase(it);
+        }else{
+            ++it;
+        }
+    }
+    for(auto r : dests) {
+        auto v = bigGraph.findVertex(r);
+        if(bigGraph.findVertex(source)){
+            while(v->getInfo().getCode() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        else{
+            while(v->getInfo().getName() != source) {
+                path = v->getInfo().getCode() + " " + path;
+                v = bigGraph.findVertex(v->getPrev());
+            }
+        }
+        path = v->getInfo().getCode() + " " + path;
+        res.push_back(path);
+        path = "";
+    }
+    return res;
+}
